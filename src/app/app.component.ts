@@ -16,7 +16,7 @@ export class AppComponent {
   constructor(
     private update: SwUpdate,
     private swPush: SwPush,
-    private api:ApiService
+    public api:ApiService
     ) { }
 
   ngOnInit() {
@@ -40,10 +40,7 @@ export class AppComponent {
   }
 
   checkForUpdate() {
-    if (!this.update.isEnabled) {
-      console.log("Not Enabled !");
-      return;
-    }
+    if (!this.update.isEnabled) { return }
     this.update.available.subscribe((event) => {
       console.log(event, 'EVENT')
       if (confirm('Update available for the app please confirm')) {
@@ -63,8 +60,7 @@ export class AppComponent {
     this.swPush.requestSubscription({
       serverPublicKey:this.publicKey
     }).then(sub=>{
-      debugger;
-      console.log(JSON.stringify(sub),'SUBSCRIPTION');
+      console.log(JSON.stringify(sub));
     }).catch(err=>console.log)
   }
 

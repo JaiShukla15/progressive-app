@@ -45,7 +45,7 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       return alert('Please enter login details');
     }
-    this.loader = true;
+    this.api.showLoader();
     this.api.login(this.loginForm.value).subscribe((response: any) => {
       if (response.message) {
         return alert(response.message)
@@ -56,11 +56,11 @@ export class LoginComponent {
         localStorage.setItem('userId', response.userId);
         this.api.userId = localStorage.getItem('userId');
       }
-      this.loader = false;
+      this.api.hideLoader();
       this.router.navigate(['/dashboard']);
     }, (error) => {
       console.log(error)
-      this.loader = false;
+      this.api.hideLoader();
       alert(error.error.message);
     });
   }

@@ -1,7 +1,7 @@
 <section style="background-color: #CDC4F9;">
   <div >
 
-    <div class="row">
+    <div class="row" *ngIf="users?.length; else nousers">
       <div class="col-md-12">
 
         <div class="card" id="chat3" style="border-radius: 15px;">
@@ -17,10 +17,10 @@
                       aria-describedby="search-addon" />
                   </div>
 
-                  <ng-container *ngIf="((users|async)?.result?.length)">
+                  <ng-container *ngIf="users.length">
                     <div data-mdb-perfect-scrollbar="true" style="position: relative; height: 800px">
                       <ul class="list-unstyled mb-0">
-                        <li *ngFor="let item of (users|async)?.result" class="p-2 border-bottom col-sm-12">
+                        <li *ngFor="let item of users" class="p-2 border-bottom col-sm-12">
                           <a href="javascript:void(0)" (click)="getSelectedChat(item.id)" class="d-flex justify-content-between">
                             <div class="d-flex flex-row">
                               <div>
@@ -87,7 +87,7 @@
                     </h5>
 
                 </div>
-                <div *ngIf="chat_info.length" style="position: absolute;bottom:30px;width: 65%;padding:10px;border:2px solid #ccc;border-radius: 8px;height: 80px;" class="text-muted d-flex justify-content-start align-items-center mt-4">
+                <div  style="position: absolute;bottom:30px;width: 65%;padding:10px;border:2px solid #ccc;border-radius: 8px;height: 80px;" class="text-muted d-flex justify-content-start align-items-center mt-4">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
                     alt="avatar 3" style="width: 40px; height: 100%;">
                   <input type="text" [(ngModel)]="message"  class="form-control form-control-lg" id="exampleFormControlInput2"
@@ -107,6 +107,8 @@
 
       </div>
     </div>
-
+  <ng-template #nousers>
+    <h4 class="text-center display-4" style="background: #fff;">No users found</h4>
+  </ng-template>
   </div>
 </section>

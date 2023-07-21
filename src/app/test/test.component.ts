@@ -20,4 +20,9 @@ export class TestComponent {
       this.api.backgroundSync('get-users')
     })
   }
+
+  downloadFile(){
+    const url = 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf';
+
+  }
 }

@@ -43,7 +43,7 @@ export class TokenInterceptor implements HttpInterceptor {
           // switch (error.url) {
           //    case URLS.USERS:{
               console.log('BACKGROUND SYNC USERS ####')
-              // this.api.backgroundSync('get-chat-users');
+              this.api.backgroundSync('get-chat-users');
               // break;
           //    }
           // }

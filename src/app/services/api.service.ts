@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class ApiService {
 
   public userId = localStorage.getItem('userId');
+  public loader:boolean = false;
   constructor(private http: HttpClient, private router: Router) { }
 
   login(payload: any) {
@@ -58,5 +59,12 @@ export class ApiService {
     navigator.serviceWorker.ready.then((swRegisteration: any) => {
       swRegisteration.sync.register(eventName);
     }).catch(console.log)
+  }
+
+  showLoader(){
+    this.loader = true;
+  }
+  hideLoader(){
+    this.loader = false;
   }
 }

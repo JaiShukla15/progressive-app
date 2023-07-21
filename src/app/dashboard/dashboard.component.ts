@@ -3,16 +3,19 @@ import { ApiService } from '../services/api.service';
 import { Observable, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from '../header/header.component';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  standalone: true,
+  styleUrls: ['./dashboard.component.scss'],
+  standalone:true,
   imports:[
     CommonModule,
-    HttpClientModule
-  ],
-  styleUrls: ['./dashboard.component.scss']
+    HeaderComponent,
+    SidenavComponent
+  ]
 })
 export class DashboardComponent {
 

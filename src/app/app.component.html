@@ -1,5 +1,2 @@
-<app-header *ngIf="isLogin"></app-header>
-<div>
-  <p class="alert text-center" [ngClass]="{'alert-success':isOnline,'alert-warning':!isOnline}">{{isOnline ? 'Connected' :'Gone Offline' }}</p>
-</div>
-<app-sidenav [isLogin]="isLogin"></app-sidenav>
+<app-loader *ngIf="api.loader"></app-loader>
+<router-outlet></router-outlet>

@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PostsComponent } from './posts/posts.component';
+import { ChatComponent } from './chat/chat.component';
+import { TestComponent } from './test/test.component';
 
 const routes: Routes = [
   {
@@ -15,15 +19,22 @@ const routes: Routes = [
   {
     path: 'dashboard',
     canActivate:[authGuard],
-    loadComponent: () => import('./dashboard/dashboard.component').then(c => c.DashboardComponent)
-  },
-  {
-    path: 'chat',
-    loadComponent: () => import('./chat/chat.component').then(c => c.ChatComponent)
-  },
-  {
-    path: 'test',
-    loadComponent: () => import('./test/test.component').then(c => c.TestComponent)
+    component:DashboardComponent,
+    children:[
+      {
+        path:'',
+        component:PostsComponent,
+        pathMatch:'full'
+      },
+      {
+        path:'chat',
+        component:ChatComponent
+      },
+      {
+        path:'test',
+        component:TestComponent
+      }
+    ]
   }
 ];
 

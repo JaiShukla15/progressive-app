@@ -5,17 +5,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { HeaderComponent } from './header/header.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { ChatComponent } from './chat/chat.component';
 import { RouterModule } from '@angular/router';
 import { TokenInterceptor } from './token.interceptor';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    SidenavComponent
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
