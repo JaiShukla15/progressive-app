@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ApiService } from '../services/api.service';
 
@@ -15,9 +15,16 @@ import { ApiService } from '../services/api.service';
 })
 export class SidenavComponent {
 
+  public innerWidth:number = 0;
+  public isMobile:boolean = false;
   constructor(private api:ApiService){}
 
   @Input() isLogin:boolean = false;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.innerWidth = window.innerWidth;
+    this.isMobile = this.innerWidth < 800;
+  }
 
   logout(){
     this.api.logout();
