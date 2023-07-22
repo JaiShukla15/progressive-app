@@ -21,6 +21,22 @@ self.addEventListener('sync', (event) => {
   }
 })
 
+ let bgFetchButton = document.querySelector('#bgFetchButton');
+
+  bgFetchButton.addEventListener('click', async event => {
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      registration.backgroundFetch.fetch('my-fetch', ['/assets/s01e01.mpg']);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
 function getUsers() {
   fetch('https://jsonplaceholder.typicode.com',{
     method:'get',
