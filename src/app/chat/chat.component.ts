@@ -90,4 +90,8 @@ export class ChatComponent {
   }
 
 
+  backToUsers(){
+    this.selected_userId = '';
+  }
+
 }

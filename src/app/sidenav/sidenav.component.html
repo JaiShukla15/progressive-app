@@ -19,19 +19,24 @@
               </ul>
               <hr>
               <div class="dropdown pb-4">
-                <a [routerLink]="['/dashboard']"class="nav-link align-middle px-0">
+                <a [routerLink]="['/dashboard']"class="nav-link align-middle px-0 my-2">
                   <span class="material-symbols-outlined">
                     house
                     </span>
                 </a>
-                <a [routerLink]="['/dashboard/chat']"class="nav-link align-middle px-0">
+                <a [routerLink]="['/dashboard/chat']"class="nav-link align-middle px-0 my-2">
                   <span class="material-symbols-outlined">
                     chat
                     </span>
                 </a>
-                <a [routerLink]="['/dashboard/test']"class="nav-link align-middle px-0">
+                <a [routerLink]="['/dashboard/test']"class="nav-link align-middle px-0 my-2">
                   <span class="material-symbols-outlined">
                    info
+                  </span>
+                </a>
+                <a (click)="logout()" class="nav-link align-middle px-0 my-2">
+                  <span class="material-symbols-outlined">
+                   logout
                   </span>
                 </a>
                   <!-- <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">

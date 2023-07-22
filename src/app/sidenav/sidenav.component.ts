@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -14,6 +15,11 @@ import { RouterModule } from '@angular/router';
 })
 export class SidenavComponent {
 
+  constructor(private api:ApiService){}
+
   @Input() isLogin:boolean = false;
 
+  logout(){
+    this.api.logout();
+  }
 }
