@@ -21,6 +21,10 @@ export class SidenavComponent {
 
   @Input() isLogin:boolean = false;
   @HostListener('window:resize', ['$event'])
+
+  ngOnint(){
+    this.onResize();
+  }
   onResize() {
     this.innerWidth = window.innerWidth;
     this.isMobile = this.innerWidth < 800;
