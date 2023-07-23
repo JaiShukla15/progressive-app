@@ -39,8 +39,10 @@ export class TestComponent {
     //     }]
     //  })
     // })
-
+    console.log(1111111111111111111);
     navigator.serviceWorker.ready.then(async (swReg:any) => {
+    console.log(22222222222222);
+
       console.log(swReg,'REG')
       const bgFetch = await swReg.backgroundFetch.fetch(
         "my-fetch",
