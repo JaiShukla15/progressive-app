@@ -1,6 +1,5 @@
 importScripts('./ngsw-worker.js');
 
-console.log(self,'self ######')
 self.addEventListener('sync', (event) => {
   if (event.tag == 'get-chat-users') {
     const options = {
@@ -22,7 +21,7 @@ self.addEventListener('sync', (event) => {
   }
 })
 
- let bgFetchButton = self.document.querySelector('#bgFetchButton');
+ let bgFetchButton = self.document?.querySelector('#bgFetchButton');
 
   bgFetchButton.addEventListener('click', async event => {
     try {
