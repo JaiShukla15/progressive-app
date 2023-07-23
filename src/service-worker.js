@@ -1,7 +1,5 @@
 importScripts('./ngsw-worker.js');
 
-// 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
-
 self.addEventListener('sync', (event) => {
   if (event.tag == 'get-chat-users') {
     const options = {
