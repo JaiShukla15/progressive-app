@@ -5,28 +5,28 @@ import { ApiService } from '../services/api.service';
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
-  standalone:true
+  standalone: true
 })
 export class TestComponent {
 
-  public backgroundFetchUrl:string = 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf';
+  public backgroundFetchUrl: string = 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf';
 
   constructor(
-    private api:ApiService
-  ){}
+    private api: ApiService
+  ) { }
 
-  getData(){
-    this.api.getUsers().subscribe((res)=>{
-      console.log(res,'GOT USERS');
-    },(error)=>{
+  getData() {
+    this.api.getUsers().subscribe((res) => {
+      console.log(res, 'GOT USERS');
+    }, (error) => {
       this.api.backgroundSync('get-users')
     })
   }
 
-  notifyMe(){
+  notifyMe() {
 
   }
-  downloadFile(){
+  downloadFile() {
     // const urls = ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf'];
     // navigator.serviceWorker.ready.then(async (swRegisteration:any)=>{
     //  const bgFetch  = swRegisteration.backgroundFetch.fetch('my-fetch',urls,{
@@ -40,10 +40,10 @@ export class TestComponent {
     //  })
     // })
     console.log(1111111111111111111);
-    navigator.serviceWorker.ready.then(async (swReg:any) => {
-    console.log(22222222222222);
+    navigator.serviceWorker.ready.then(async (swReg: any) => {
+      console.log(22222222222222);
 
-      console.log(swReg,'REG')
+      console.log(swReg, 'REG')
       const bgFetch = await swReg.backgroundFetch.fetch(
         "my-fetch",
         ["https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf"
@@ -54,15 +54,15 @@ export class TestComponent {
           icons: [
             {
               sizes: "300x300",
-              src: "https://media.istockphoto.com/id/1393890859/photo/happy-couple-at-home-paying-bills-online.jpg?s=2048x2048&w=is&k=20&c=joHosgeQiJnTNo-qBZOpUCPCWG3RpDqiG0E__Z7APC0=",
+              src: "../../assets/icons/android/android-launchericon-48-48.png",
               type: "image/png",
             },
           ],
-          downloadTotal: 60 * 1024* 1024 * 1024,
+          downloadTotal: 15 * 1024 * 1024 * 1024,
         },
       );
 
-      console.log(bgFetch,'BACKGROUND FETCH ########');
+      console.log(bgFetch, 'BACKGROUND FETCH ########');
     });
   }
   async performBackgroundFetch() {
