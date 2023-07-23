@@ -49,7 +49,7 @@ export class TestComponent {
         ["https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf",
          "https://media.istockphoto.com/id/1461268110/photo/growth-business-graph-finance-data-diagram-concept-on-stock-market-background-with-financial.jpg?s=2048x2048&w=is&k=20&c=5H6A3Ex4Ql7nXTcgUo8kaT3gnbukVxZrq6Wsr2REN3s="],
         {
-          title: "Episode 5: Interesting things.",
+          title: "Big file",
           icons: [
             {
               sizes: "300x300",
@@ -57,7 +57,7 @@ export class TestComponent {
               type: "image/png",
             },
           ],
-          downloadTotal: 60 * 1024 * 1024,
+          downloadTotal: 60 * 1024* 1024 * 1024,
         },
       );
 
