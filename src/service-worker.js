@@ -21,12 +21,12 @@ self.addEventListener('sync', (event) => {
   }
 })
 
- let bgFetchButton = document.querySelector('#bgFetchButton');
+ let bgFetchButton = self.document.querySelector('#bgFetchButton');
 
   bgFetchButton.addEventListener('click', async event => {
     try {
       const registration = await navigator.serviceWorker.ready;
-      registration.backgroundFetch.fetch('my-fetch', ['/assets/s01e01.mpg']);
+      registration.backgroundFetch.fetch('my-fetch', ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf']);
     } catch (err) {
       console.error(err);
     }
