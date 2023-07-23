@@ -46,8 +46,9 @@ export class TestComponent {
       console.log(swReg,'REG')
       const bgFetch = await swReg.backgroundFetch.fetch(
         "my-fetch",
-        ["https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf",
-         "https://media.istockphoto.com/id/1461268110/photo/growth-business-graph-finance-data-diagram-concept-on-stock-market-background-with-financial.jpg?s=2048x2048&w=is&k=20&c=5H6A3Ex4Ql7nXTcgUo8kaT3gnbukVxZrq6Wsr2REN3s="],
+        ["https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf"
+        ],
+
         {
           title: "Big file",
           icons: [
