@@ -21,12 +21,12 @@ self.addEventListener('sync', (event) => {
   }
 })
 console.log(self,'SELF #####');
+console.log(window?.document,'DOCUMENT #####')
  let bgFetchButton = self.document?.querySelector('#bgFetchButton');
 
   bgFetchButton?.addEventListener('click', async event => {
     try {
-      const registration = await navigator.serviceWorker.ready;
-      registration.backgroundFetch.fetch('my-fetch', ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf']);
+      self.registration.backgroundFetch.fetch('my-fetch', ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf']);
     } catch (err) {
       console.error(err);
     }
