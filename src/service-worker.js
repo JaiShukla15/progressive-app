@@ -16,11 +16,35 @@ self.addEventListener('sync', (event) => {
     event.waitUntil(sendMessage());
   }
   else if(event.tag==='get-users'){
+    this.startBackgroundFetch();
     event.waitUntil(getUsers());
 
   }
 })
-console.log(self,'SELF #####');
+
+async function startBackgroundFetch() {
+  if ('backgroundFetch' in self.registration) {
+    try {
+      const registration = await self.registration.backgroundFetch.fetch('myBackgroundFetch', 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf');
+      registration.addEventListener('backgroundfetchsuccess', (event) => {
+        // Process the fetched data here
+        console.log('Background fetch success:', event);
+      });
+      registration.addEventListener('backgroundfetchfail', (event) => {
+        // Handle fetch failure here
+        console.error('Background fetch failed:', event);
+      });
+    } catch (error) {
+      console.error('Background fetch error:', error);
+    }
+  } else {
+    console.error('Background fetch is not supported in this browser.');
+  }
+}
+
+
+
+
 //  let bgFetchButton = self.document?.querySelector('#bgFetchButton');
 
   // // bgFetchButton?.addEventListener('click', async event => {
