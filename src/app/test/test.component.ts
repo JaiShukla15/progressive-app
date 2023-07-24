@@ -50,7 +50,7 @@ export class TestComponent {
         ],
 
         {
-          title: "Big file",
+          title: "important one",
           icons: [
             {
               sizes: "300x300",
