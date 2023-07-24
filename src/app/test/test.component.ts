@@ -58,9 +58,11 @@ export class TestComponent {
               type: "image/png",
             },
           ],
-          downloadTotal: 15 * 1024 * 1024 * 1024,
+          downloadTotal: 14 * 1024 * 1024,
         },
       );
+
+      this.monitorBgFetch(bgFetch);
 
       console.log(bgFetch, 'BACKGROUND FETCH ########');
     });
@@ -94,5 +96,38 @@ export class TestComponent {
     } catch (error) {
       console.error('Background Fetch Error:', error);
     }
+  }
+
+
+  async monitorBgFetch(bgFetch:any) {
+    function doUpdate() {
+      const update:any = {};
+
+      if (bgFetch.result === '') {
+        update.state = 'fetching';
+        update.progress = bgFetch.downloaded / bgFetch.downloadTotal;
+      } else if (bgFetch.result === 'success') {
+        update.state = 'fetching';
+        update.progress = 1;
+      } else if (bgFetch.failureReason === 'aborted') { // Failure
+        update.state = 'not-stored';
+      } else { // other failure
+        update.state = 'failed';
+      }
+
+
+    };
+
+    doUpdate();
+
+    bgFetch.addEventListener('progress', doUpdate);
+    const channel = new BroadcastChannel(bgFetch.id);
+
+    channel.onmessage = (event) => {
+      if (!event.data.stored) return;
+      bgFetch.removeEventListener('progress', doUpdate);
+      channel.close();
+     console.log('updated @@@@@@');
+    };
   }
 }
