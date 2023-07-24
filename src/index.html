@@ -17,6 +17,66 @@
 <body>
   <app-root></app-root>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+
+ <script>
+   const bgFetchButton = document.querySelector('#bgBtn');
+
+   bgFetchButton.addEventListener('click', async event => {
+    // Let's assume that we got some unique ID of the asset set we want to download
+    let assetToFetchId = 'series';
+
+    try {
+      bgFetchButton.disabled = true;
+      const registration = await navigator.serviceWorker.ready;
+
+      // This could be an API call to our backend
+      let assetsData = await assetsDataResponse.json();
+
+      const bgFetchRegistration = await registration.backgroundFetch.fetch(
+        'bg-fetch-02',
+        'https://speed.hetzner.de/100MB.bin',
+        {
+          icons: assetsData.icons,
+          title: `Downloading  file !!!!!`,
+          downloadTotal: 90 * 1024 * 1024
+        }
+      );
+
+      bgFetchRegistration.addEventListener('progress', event => {
+        fetchProgress = event.currentTarget;
+        progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
+          fetchProgress.downloaded
+        )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
+          (fetchProgress.downloaded * 100) / fetchProgress.downloadTotal
+        )}%)`;
+
+        if (fetchProgress.downloadTotal==fetchProgress.downloaded) {
+          bgFetchButton.disabled = false;
+        }
+      });
+    } catch (err) {
+      alert(
+        'Please enable downloads for this website (click the icon on the right side of the address bar)'
+      );
+      console.error(err);
+    }
+  });
+
+  function bytesToSize(bytes, decimals) {
+    if (bytes == 0) return '0 Bytes';
+    var k = 1024,
+      dm = decimals <= 0 ? 0 : decimals || 2,
+      sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js');
+    });
+  }
+  </script>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 </html>
