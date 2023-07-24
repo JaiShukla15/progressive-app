@@ -72,7 +72,8 @@ export class TestComponent {
 
       bgFetch.addEventListener('progress', () => {
         // If we didn't provide a total, we can't provide a %.
-        if (!bgFetch.downloadTotal) return;
+        console.log('progress started ####');
+        // if (!bgFetch.downloadTotal) return;
 
         const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
         console.log(`Download progress 11111: ${percent}%`);
