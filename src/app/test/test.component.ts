@@ -45,7 +45,7 @@ export class TestComponent {
 
       console.log(swReg, 'REGISTRATION---')
       const bgFetch = await swReg.backgroundFetch.fetch(
-        "bg-fetch-1",
+        "bg-fetch-3",
         ["https://speed.hetzner.de/100MB.bin"
         ],
 
@@ -173,7 +173,7 @@ export class TestComponent {
 
       }
 
-      const cache = await caches.open('bg-fetch-1');
+      const cache = await caches.open('bg-fetch-3');
       const inMemoryResponse = new Response(new Blob(chunks), { headers: response.headers });
       await cache.put(this.backgroundFetchUrl, inMemoryResponse);
       console.log({ state: 'stored', progress: 1 });
