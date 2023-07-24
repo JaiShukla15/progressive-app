@@ -45,7 +45,7 @@ export class TestComponent {
 
       console.log(swReg, 'REGISTRATION---')
       const bgFetch = await swReg.backgroundFetch.fetch(
-        "bg-fetch-3",
+        "bg-fetch-4",
         ["https://speed.hetzner.de/100MB.bin"
         ],
 
@@ -93,6 +93,17 @@ export class TestComponent {
           // Handle the fetch failure here
           console.error('Background Fetch Failed:', fetchRecord);
         });
+      });
+
+      bgFetch.addEventListener('backgroundfetchclick', (event:any) => {
+        const bgFetch = event.registration;
+
+        if (bgFetch.result === 'success') {
+          console.log('DOWNLOAD SUCCESS');
+        } else {
+          console.log('DOWNLOAD PROGRESS',bgFetch);
+
+        }
       });
 
     });
@@ -173,7 +184,7 @@ export class TestComponent {
 
       }
 
-      const cache = await caches.open('bg-fetch-3');
+      const cache = await caches.open('bg-fetch-4');
       const inMemoryResponse = new Response(new Blob(chunks), { headers: response.headers });
       await cache.put(this.backgroundFetchUrl, inMemoryResponse);
       console.log({ state: 'stored', progress: 1 });

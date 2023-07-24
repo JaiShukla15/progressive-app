@@ -28,7 +28,7 @@ self.addEventListener('sync', (event) => {
 
 
 addEventListener('backgroundfetchsuccess', event => {
-  console.log('[Service Worker] -bg-fetch-3: Background Fetch Success', event.registration);
+  console.log('[Service Worker] -bg-fetch-4: Background Fetch Success', event.registration);
   event.waitUntil(
     (async function() {
       try {
