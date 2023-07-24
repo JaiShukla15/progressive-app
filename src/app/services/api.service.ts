@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BASE_URL, BASE_URL_API } from 'src/environments/environment';
+import { BASE_URL, BASE_URL_API, BASE_URL_LOCAL_API } from 'src/environments/environment';
 import { URLS } from '../constant';
 import { Router } from '@angular/router';
 
@@ -59,6 +59,11 @@ export class ApiService {
     navigator.serviceWorker.ready.then((swRegisteration: any) => {
       swRegisteration.sync.register(eventName);
     }).catch(console.log)
+  }
+
+
+  showNotification(){
+   this.http.get(`${BASE_URL_LOCAL_API}/notify`);
   }
 
   showLoader(){

@@ -1,5 +1,9 @@
 importScripts('./ngsw-worker.js');
 
+if ('BackgroundFetchManager' in self) {
+  console.log(' This browser supports Background Fetch !!!!!!');
+}
+
 self.addEventListener('sync', (event) => {
   if (event.tag == 'get-chat-users') {
     const options = {
@@ -22,10 +26,36 @@ self.addEventListener('sync', (event) => {
   }
 })
 
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+  const bgFetch = event.registration;
+
+  console.log('BACKGROUND FETCH SUCCESS CALLED #####');
+  event.waitUntil(async function() {
+    // Create/open a cache.
+    const cache = await caches.open('downloads');
+    // Get all the records.
+    const records = await bgFetch.matchAll();
+    // Copy each request/response across.
+    const promises = records.map(async (record) => {
+      const response = await record.responseReady;
+      await cache.put(record.request, response);
+    });
+
+    // Wait for the copying to complete.
+    await Promise.all(promises);
+
+    // Update the progress notification.
+    event.updateUI({ title: 'Episode 5 ready to listen!' });
+  }());
+});
+
 async function startBackgroundFetch() {
   if ('backgroundFetch' in self.registration) {
     try {
-      const registration = await self.registration.backgroundFetch.fetch('myBackgroundFetch', 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf');
+      const registration = await self.registration.backgroundFetch.fetch(
+        'myBackgroundFetch',
+         'https://speed.hetzner.de/100MB.bin');
       registration.addEventListener('backgroundfetchsuccess', (event) => {
         // Process the fetched data here
         console.log('Background fetch success:', event);

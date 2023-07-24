@@ -25,7 +25,7 @@ export class TestComponent {
   }
 
   notifyMe() {
-
+    this.api.showNotification();
   }
   downloadFile() {
     // const urls = ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf'];
@@ -40,13 +40,12 @@ export class TestComponent {
     //     }]
     //  })
     // })
-    console.log(1111111111111111111);
+    console.log('Starting background Fetch ----');
     navigator.serviceWorker.ready.then(async (swReg: any) => {
-      console.log(22222222222222);
 
-      console.log(swReg, 'REG')
+      console.log(swReg, 'REGISTRATION---')
       const bgFetch = await swReg.backgroundFetch.fetch(
-        "bg-fetch",
+        "bg-fetch-1",
         ["https://speed.hetzner.de/100MB.bin"
         ],
 
@@ -66,20 +65,20 @@ export class TestComponent {
       this.monitorBgFetch(bgFetch);
 
       console.log(bgFetch, 'BACKGROUND FETCH ########');
-    });
-  }
-  async performBackgroundFetch() {
-    try {
-      const registration = await navigator.serviceWorker.ready;
-      const controller = registration.active;
+      navigator.serviceWorker.ready.then(async (swReg:any) => {
+        const ids = await swReg.backgroundFetch.getIds();
+        console.log(ids,'IDS')
+      });
 
-      const backgroundFetch = await (self as any).backgroundFetch.fetch(
-        'backgroundFetch',
-        [this.backgroundFetchUrl],
-        { title: 'Background Fetch' }
-      );
+      bgFetch.addEventListener('progress', () => {
+        // If we didn't provide a total, we can't provide a %.
+        if (!bgFetch.downloadTotal) return;
 
-      backgroundFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
+        const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
+        console.log(`Download progress 11111: ${percent}%`);
+      });
+
+      bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
         const fetchRecords = event.fetches;
         fetchRecords.forEach((fetchRecord: any) => {
           // Handle the fetch success and process the fetched data here
@@ -87,17 +86,32 @@ export class TestComponent {
         });
       });
 
-      backgroundFetch.addEventListener('backgroundfetchfail', (event: any) => {
+      bgFetch.addEventListener('backgroundfetchfail', (event: any) => {
         const fetchRecords = event.fetches;
         fetchRecords.forEach((fetchRecord: any) => {
           // Handle the fetch failure here
           console.error('Background Fetch Failed:', fetchRecord);
         });
       });
-    } catch (error) {
-      console.error('Background Fetch Error:', error);
-    }
+
+    });
   }
+  // async performBackgroundFetch() {
+  //   try {
+  //     const registration = await navigator.serviceWorker.ready;
+  //     const controller = registration.active;
+
+  //     const backgroundFetch = await (self as any).backgroundFetch.fetch(
+  //       'backgroundFetch',
+  //       [this.backgroundFetchUrl],
+  //       { title: 'Background Fetch' }
+  //     );
+
+
+  //   } catch (error) {
+  //     console.error('Background Fetch Error:', error);
+  //   }
+  // }
 
 
   async monitorBgFetch(bgFetch:any) {
@@ -135,7 +149,7 @@ export class TestComponent {
    async fallbackFetch() {
     const controller = new AbortController();
     const { signal } = controller;
-    this.abortControllers.set('bg-fetch', controller);
+    this.abortControllers.set('bg-fetch-1', controller);
 
     try {
       const response = await fetch(this.backgroundFetchUrl, { signal });
@@ -158,7 +172,7 @@ export class TestComponent {
 
       }
 
-      const cache = await caches.open('bg-fetch');
+      const cache = await caches.open('bg-fetch-1');
       const inMemoryResponse = new Response(new Blob(chunks), { headers: response.headers });
       await cache.put(this.backgroundFetchUrl, inMemoryResponse);
       console.log({ state: 'stored', progress: 1 });
