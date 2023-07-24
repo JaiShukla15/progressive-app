@@ -76,28 +76,6 @@ self.addEventListener('backgroundfetchsuccess', (event) => {
   }());
 });
 
-async function startBackgroundFetch() {
-  if ('backgroundFetch' in self.registration) {
-    try {
-      const registration = await self.registration.backgroundFetch.fetch(
-        'myBackgroundFetch',
-         'https://speed.hetzner.de/100MB.bin');
-      registration.addEventListener('backgroundfetchsuccess', (event) => {
-        // Process the fetched data here
-        console.log('Background fetch success:', event);
-      });
-      registration.addEventListener('backgroundfetchfail', (event) => {
-        // Handle fetch failure here
-        console.error('Background fetch failed:', event);
-      });
-    } catch (error) {
-      console.error('Background fetch error:', error);
-    }
-  } else {
-    console.error('Background fetch is not supported in this browser.');
-  }
-}
-
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
