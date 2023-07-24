@@ -45,7 +45,7 @@ export class TestComponent {
 
       console.log(swReg, 'REG')
       const bgFetch = await swReg.backgroundFetch.fetch(
-        "my-fetch",
+        "bg-fetch",
         ["https://speed.hetzner.de/100MB.bin"
         ],
 
