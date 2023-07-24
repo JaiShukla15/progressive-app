@@ -43,20 +43,6 @@ async function startBackgroundFetch() {
 }
 
 
-
-
-//  let bgFetchButton = self.document?.querySelector('#bgFetchButton');
-
-  // // bgFetchButton?.addEventListener('click', async event => {
-  //   try {
-  //     self.registration.backgroundFetch.fetch('my-fetch', ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf']);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // // });
-
-
-
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js');
