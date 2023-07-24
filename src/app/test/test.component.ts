@@ -9,7 +9,8 @@ import { ApiService } from '../services/api.service';
 })
 export class TestComponent {
 
-  public backgroundFetchUrl: string = 'https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf';
+  public abortControllers = new Map();
+  public backgroundFetchUrl: string = 'https://speed.hetzner.de/100MB.bin';
 
   constructor(
     private api: ApiService
@@ -129,5 +130,43 @@ export class TestComponent {
       channel.close();
      console.log('updated @@@@@@');
     };
+  }
+
+   async fallbackFetch() {
+    const controller = new AbortController();
+    const { signal } = controller;
+    this.abortControllers.set('bg-fetch', controller);
+
+    try {
+      const response = await fetch(this.backgroundFetchUrl, { signal });
+      const chunks = [];
+      let downloaded = 0;
+      let lastUpdated = 0;
+      const reader:any = response?.body?.getReader();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        downloaded += value.length;
+        chunks.push(value);
+        const now = Date.now();
+        const progress = downloaded / (15 * 1024 * 1024);
+        if (now - lastUpdated > 500 || progress === 1) {
+          console.log({ progress });
+          lastUpdated = now;
+        }
+
+      }
+
+      const cache = await caches.open('bg-fetch');
+      const inMemoryResponse = new Response(new Blob(chunks), { headers: response.headers });
+      await cache.put(this.backgroundFetchUrl, inMemoryResponse);
+      console.log({ state: 'stored', progress: 1 });
+    } catch (err) {
+      console.log('Aborted')
+      // if (err.name === 'AbortError') return;
+      // updateItem(item.id, { state: 'failed' });
+    }
+
   }
 }
