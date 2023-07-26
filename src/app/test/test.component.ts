@@ -54,7 +54,7 @@ export class TestComponent {
       );
 
       this.monitorBgFetch(bgFetch);
-
+      let that = this;
       console.log(bgFetch, 'BACKGROUND FETCH ########');
       navigator.serviceWorker.ready.then(async (swReg:any) => {
         const ids = await swReg.backgroundFetch.getIds();
@@ -67,16 +67,22 @@ export class TestComponent {
 
         const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
         this.downloadProgress = percent;
-        console.log('progress started ####');
         alert(`Progress started ${this.downloadProgress}`)
-        console.log(`Download progress 11111: ${percent}%`);
+        console.log(`Progress started ------: ${percent}%`);
       });
 
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
+        event.waitUntil(
+          (
+            async function(){
+              that.downloadProgress = 100;
+            }
+          )
+        )
         const fetchRecords = event.fetches;
         fetchRecords.forEach((fetchRecord: any) => {
           // Handle the fetch success and process the fetched data here
-          alert('File Download successfully !');
+          alert('File Downloaded successfully !');
           console.log('Background Fetch Success:', fetchRecord);
         });
       });
