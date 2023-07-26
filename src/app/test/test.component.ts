@@ -76,14 +76,15 @@ export class TestComponent {
           (
             async function(){
               that.downloadProgress = 100;
+              alert('File Downloaded successfully !');
             }
           )
         )
         const fetchRecords = event.fetches;
         fetchRecords.forEach((fetchRecord: any) => {
           // Handle the fetch success and process the fetched data here
-          alert('File Downloaded successfully !');
-          console.log('Background Fetch Success:', fetchRecord);
+
+          alert('Background Fetch Success:'+JSON.stringify(fetchRecord));
         });
       });
 
