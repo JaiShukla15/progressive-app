@@ -76,9 +76,38 @@ export class TestComponent {
         const fetchRecords = event.fetches;
         fetchRecords.forEach((fetchRecord: any) => {
           // Handle the fetch success and process the fetched data here
+          alert('File Download successfully !');
           console.log('Background Fetch Success:', fetchRecord);
         });
       });
+
+      // For Storing records in cache !!!!!
+
+      // bgFetch.addEventListener('backgroundfetchsuccess', event => {
+      //   console.log('[Service Worker] Background Fetch Success', event.registration);
+      //   event.waitUntil(
+      //     (async function() {
+      //       try {
+      //         // Iterating the records to populate the cache
+      //         const cache = await caches.open(event.registration.id);
+      //         const records = await event.registration.matchAll();
+      //         const promises = records.map(async record => {
+      //           const response = await record.responseReady;
+      //           await cache.put(record.request, response);
+      //         });
+      //         console.log(records,'RECORDS #####');
+      //         await Promise.all(promises);
+
+      //         // [Optional] This could be an API call to our backend
+
+      //         // Updating UI
+      //         alert('Download is ready #####');
+      //       } catch (err) {
+      //         alert('Download is failed #####');
+      //       }
+      //     })()
+      //   );
+      // });
 
       bgFetch.addEventListener('backgroundfetchfail', (event: any) => {
         const fetchRecords = event.fetches;
@@ -127,9 +156,12 @@ export class TestComponent {
       if (bgFetch.result === '') {
         update.state = 'fetching';
         that.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
+        alert(that.downloadProgress+'- PROGRESS');
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
         that.downloadProgress = 1;
+        alert(that.downloadProgress+'- Download started');
+
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
       } else { // other failure

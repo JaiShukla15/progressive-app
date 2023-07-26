@@ -27,32 +27,6 @@ self.addEventListener('sync', (event) => {
 })
 
 
-addEventListener('backgroundfetchsuccess', event => {
-  console.log('[Service Worker] -bg-fetch-4: Background Fetch Success', event.registration);
-  event.waitUntil(
-    (async function() {
-      try {
-        // Iterating the records to populate the cache
-        const cache = await caches.open(event.registration.id);
-        const records = await event.registration.matchAll();
-        const promises = records.map(async record => {
-          const response = await record.responseReady;
-          await cache.put(record.request, response);
-        });
-        console.log(records,'RECORDS #####');
-        await Promise.all(promises);
-
-        // [Optional] This could be an API call to our backend
-
-        // Updating UI
-        alert('Download is ready #####');
-      } catch (err) {
-        alert('Download is failed #####');
-      }
-    })()
-  );
-});
-
 self.addEventListener('backgroundfetchsuccess', (event) => {
   const bgFetch = event.registration;
 
