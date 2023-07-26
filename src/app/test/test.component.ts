@@ -1,24 +1,31 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import { Observable, of } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-test',
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
-  standalone: true
+  standalone: true,
+  imports:[
+    CommonModule
+  ]
 })
 export class TestComponent {
 
   public abortControllers = new Map();
   public backgroundFetchUrl: string = 'https://speed.hetzner.de/100MB.bin';
   public downloadProgress:number = 0;
+  public users:Array<any> = [];
 
   constructor(
     private api: ApiService
   ) { }
 
   getData() {
-    this.api.getUsers().subscribe((res) => {
+    this.api.getUsers().subscribe((res:any) => {
+       this.users = res.result;
       console.log(res, 'GOT USERS');
     }, (error) => {
       this.api.backgroundSync('get-users')
@@ -61,14 +68,20 @@ export class TestComponent {
         console.log(ids,'IDS')
       });
 
-      bgFetch.addEventListener('progress', () => {
+      bgFetch.addEventListener('progress', (event:any) => {
         // If we didn't provide a total, we can't provide a %.
         // if (!bgFetch.downloadTotal) return;
+        let fetchProgress = event.currentTarget;
 
-        const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
-        this.downloadProgress = percent;
-        alert(`Progress started ${this.downloadProgress}`)
-        console.log(`Progress started ------: ${percent}%`);
+        // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
+        this.downloadProgress = fetchProgress.downloaded;
+        // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
+        //   fetchProgress.downloaded
+        // )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
+        //   (fetchProgress.downloaded * 100) / fetchProgress.downloadTotal
+        // )}%)`;
+
+        alert(`Progress started ${this.downloadProgress}`);
       });
 
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
@@ -128,10 +141,10 @@ export class TestComponent {
         const bgFetch = event.registration;
 
         if (bgFetch.result === 'success') {
-          console.log('DOWNLOAD SUCCESS');
+          alert('DOWNLOAD SUCCESS')
+          console.log('');
         } else {
-          console.log('DOWNLOAD PROGRESS',bgFetch);
-
+          console.log('DOWNLOAD PROGRESS'+JSON.stringify(bgFetch));
         }
       });
 
@@ -181,5 +194,15 @@ export class TestComponent {
 
     bgFetch.addEventListener('progress', doUpdate);
   }
+
+  bytesToSize(bytes:any, decimals:any) {
+    if (bytes == 0) return '0 Bytes';
+    var k = 1024,
+      dm = decimals <= 0 ? 0 : decimals || 2,
+      sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+      i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
+
 
 }

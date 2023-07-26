@@ -25,5 +25,12 @@
     </span>
     <div class="progress-value">{{downloadProgress}}</div>
   </div>
-
+</div>
+<hr />
+<div class="users-list">
+  <ul>
+    <li *ngFor="let user of users">
+      <p>{{user?.name}}</p>
+    </li>
+  </ul>
 </div>
