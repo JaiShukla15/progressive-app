@@ -20,8 +20,8 @@ self.addEventListener('sync', (event) => {
     event.waitUntil(sendMessage());
   }
   else if(event.tag==='get-users'){
-    // this.startBackgroundFetch();
     event.waitUntil(getUsers());
+    alert('Fetching data')
 
   }
 })

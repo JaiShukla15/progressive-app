@@ -63,11 +63,12 @@ export class TestComponent {
 
       bgFetch.addEventListener('progress', () => {
         // If we didn't provide a total, we can't provide a %.
-        console.log('progress started ####');
         // if (!bgFetch.downloadTotal) return;
 
         const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
         this.downloadProgress = percent;
+        console.log('progress started ####');
+        alert(`Progress started ${this.downloadProgress}`)
         console.log(`Download progress 11111: ${percent}%`);
       });
 
@@ -119,15 +120,16 @@ export class TestComponent {
 
 
   async monitorBgFetch(bgFetch:any) {
+    const that = this;
     function doUpdate() {
       const update:any = {};
 
       if (bgFetch.result === '') {
         update.state = 'fetching';
-        update.progress = bgFetch.downloaded / bgFetch.downloadTotal;
+        that.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
-        update.progress = 1;
+        that.downloadProgress = 1;
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
       } else { // other failure

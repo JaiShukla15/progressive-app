@@ -42,8 +42,8 @@ export class TokenInterceptor implements HttpInterceptor {
           // console.log(this.api.getEndpoints(error.url));
           // switch (error.url) {
           //    case URLS.USERS:{
-              console.log('BACKGROUND SYNC USERS ####')
-              this.api.backgroundSync('get-chat-users');
+              // console.log('BACKGROUND SYNC USERS ####')
+              // this.api.backgroundSync('get-chat-users');
               // break;
           //    }
           // }
