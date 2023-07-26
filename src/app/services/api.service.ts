@@ -63,7 +63,7 @@ export class ApiService {
 
 
   showNotification(){
-   this.http.get(`${BASE_URL_LOCAL_API}/notify`);
+   return this.http.get(`${BASE_URL_LOCAL_API}/notification`);
   }
 
   showLoader(){

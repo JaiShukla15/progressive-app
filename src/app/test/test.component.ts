@@ -11,6 +11,7 @@ export class TestComponent {
 
   public abortControllers = new Map();
   public backgroundFetchUrl: string = 'https://speed.hetzner.de/100MB.bin';
+  public downloadProgress:number = 0;
 
   constructor(
     private api: ApiService
@@ -25,21 +26,11 @@ export class TestComponent {
   }
 
   notifyMe() {
-    this.api.showNotification();
-  }
+    this.api.showNotification().subscribe((data:any)=>{
+     console.log('Notificatio sent !');
+    });
+  };
   downloadFile() {
-    // const urls = ['https://onlinetestcase.com/wp-content/uploads/2023/06/1.5-MB.pdf'];
-    // navigator.serviceWorker.ready.then(async (swRegisteration:any)=>{
-    //  const bgFetch  = swRegisteration.backgroundFetch.fetch('my-fetch',urls,{
-    //   title:'Excel file',
-    //   icons:[
-    //     {
-    //       sizes:'72x72',
-    //       src:'../../assets/icons/android/android-launchericon-72-72.png',
-    //       type:'application/pdf'
-    //     }]
-    //  })
-    // })
     console.log('Starting background Fetch ----');
     navigator.serviceWorker.ready.then(async (swReg: any) => {
 
@@ -76,6 +67,7 @@ export class TestComponent {
         // if (!bgFetch.downloadTotal) return;
 
         const percent = Math.round(bgFetch.downloaded / bgFetch.downloadTotal * 100);
+        this.downloadProgress = percent;
         console.log(`Download progress 11111: ${percent}%`);
       });
 

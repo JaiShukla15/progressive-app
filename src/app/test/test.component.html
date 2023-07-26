@@ -6,7 +6,6 @@
    <br>
   <button class="btn btn-primary" (click)="getData()">Get Data</button>
   <br>
-  <button class="btn btn-primary my-2"  id="bgBtn" >Download new one</button>
 </div>
   <hr>
 
@@ -17,4 +16,14 @@
         description
         </span>
   </div>
+  <div class="progress blue">
+    <span class="progress-left">
+                      <span class="progress-bar"></span>
+    </span>
+    <span class="progress-right">
+                      <span class="progress-bar"></span>
+    </span>
+    <div class="progress-value">{{downloadProgress}}</div>
+  </div>
+
 </div>
