@@ -1,16 +1,18 @@
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Title</th>
-      <th scope="col">Description</th>
-    </tr>
-  </thead>
-  <tbody style="max-height: 80vh;overflow-y: scroll;">
-    <tr *ngFor="let post of posts">
-      <th scope="row">{{post.id}}</th>
-      <td>{{post?.title}}</td>
-      <td>{{post?.body.length>100 ? (post?.body|slice:0:100)+'...' : post.body}}</td>
-    </tr>
-  </tbody>
-</table>
+<div style="height: 200px;">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody style="max-height: 80vh;overflow-y: scroll;">
+      <tr *ngFor="let post of posts">
+        <th scope="row">{{post.id}}</th>
+        <td>{{post?.title}}</td>
+        <td>{{post?.body.length>100 ? (post?.body|slice:0:100)+'...' : post.body}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
