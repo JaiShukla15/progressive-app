@@ -37,11 +37,11 @@ export class TestComponent {
       console.log(swReg, 'REGISTRATION---')
       const bgFetch = await swReg.backgroundFetch.fetch(
         "bg-fetch-4",
-        ["https://speed.hetzner.de/100MB.bin"
+        ["https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf"
         ],
 
         {
-          title: "important one",
+          title: "Test file",
           icons: [
             {
               sizes: "300x300",
@@ -49,7 +49,7 @@ export class TestComponent {
               type: "image/png",
             },
           ],
-          downloadTotal: 14 * 1024 * 1024,
+          downloadTotal: 5 * 1024 * 1024,
         },
       );
 
@@ -168,57 +168,11 @@ export class TestComponent {
         update.state = 'failed';
       }
 
-
     };
 
     doUpdate();
 
     bgFetch.addEventListener('progress', doUpdate);
-    const channel = new BroadcastChannel(bgFetch.id);
-
-    channel.onmessage = (event) => {
-      if (!event.data.stored) return;
-      bgFetch.removeEventListener('progress', doUpdate);
-      channel.close();
-     console.log('updated @@@@@@');
-    };
   }
 
-   async fallbackFetch() {
-    const controller = new AbortController();
-    const { signal } = controller;
-    this.abortControllers.set('bg-fetch-1', controller);
-
-    try {
-      const response = await fetch(this.backgroundFetchUrl, { signal });
-      const chunks = [];
-      let downloaded = 0;
-      let lastUpdated = 0;
-      const reader:any = response?.body?.getReader();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        downloaded += value.length;
-        chunks.push(value);
-        const now = Date.now();
-        const progress = downloaded / (15 * 1024 * 1024);
-        if (now - lastUpdated > 500 || progress === 1) {
-          console.log({ progress });
-          lastUpdated = now;
-        }
-
-      }
-
-      const cache = await caches.open('bg-fetch-4');
-      const inMemoryResponse = new Response(new Blob(chunks), { headers: response.headers });
-      await cache.put(this.backgroundFetchUrl, inMemoryResponse);
-      console.log({ state: 'stored', progress: 1 });
-    } catch (err) {
-      console.log('Aborted')
-      // if (err.name === 'AbortError') return;
-      // updateItem(item.id, { state: 'failed' });
-    }
-
-  }
 }
