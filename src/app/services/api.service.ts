@@ -26,7 +26,7 @@ export class ApiService {
   }
 
   getUsers() {
-    return this.http.get(`${BASE_URL}/${URLS.USERS}`);
+    return this.http.get('https://jsonplaceholder.typicode.com/users');
   }
 
   getAllUsers() {

@@ -24,10 +24,12 @@ export class TestComponent {
   ) { }
 
   getData() {
-    this.api.getUsers().subscribe((res:any) => {
-       this.users = res.result;
-      console.log(res, 'GOT USERS');
+    this.api.showLoader();
+    this.api.getUsers().subscribe(async (res: any) => {
+      this.users = res;
+      this.api.hideLoader();
     }, (error) => {
+      this.api.hideLoader();
       this.api.backgroundSync('get-users')
     })
   }
@@ -150,23 +152,6 @@ export class TestComponent {
 
     });
   }
-  // async performBackgroundFetch() {
-  //   try {
-  //     const registration = await navigator.serviceWorker.ready;
-  //     const controller = registration.active;
-
-  //     const backgroundFetch = await (self as any).backgroundFetch.fetch(
-  //       'backgroundFetch',
-  //       [this.backgroundFetchUrl],
-  //       { title: 'Background Fetch' }
-  //     );
-
-
-  //   } catch (error) {
-  //     console.error('Background Fetch Error:', error);
-  //   }
-  // }
-
 
   async monitorBgFetch(bgFetch:any) {
     const that = this;
