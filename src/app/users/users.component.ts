@@ -7,7 +7,7 @@ import { ApiService } from '../services/api.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
   standalone: true,
-  providers:[
+  providers: [
     ApiService
   ],
   imports: [
@@ -34,8 +34,6 @@ export class UsersComponent implements OnInit {
     }, (error) => {
       this.api.hideLoader();
       this.api.backgroundSync('get-users').then((message: any) => {
-        this.message = message;
-        this.vanishMessage();
         console.log(message, 'SYNC COMPLETED------');
       }).catch(err => {
         console.log(err, 'SYNC ERROR -----');
@@ -49,13 +47,21 @@ export class UsersComponent implements OnInit {
     }, 2000);
   }
   detectConnectionStatus() {
-    this.api.connectionStatus.subscribe(async (online: boolean) => {
-      if (online) {
-        let cache = await caches.open('get-users');
-        let response = await cache.match('get-users');
-        console.log(response, 'RESPONSE FROM CACHE ####');
+    this.api.connectionStatus.subscribe((online: boolean) => {
+      if (online && navigator.onLine) {
+        this.sync();
       }
     })
+  }
+
+  sync() {
+    this.message = 'Syncing ....';
+    this.vanishMessage();
+    setTimeout(async () => {
+      let cache = await caches.open('get-users');
+      let response = await cache.match('get-users');
+      this.users = await response?.json();
+    }, 2000);
   }
 
 }

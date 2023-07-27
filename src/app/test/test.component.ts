@@ -114,7 +114,6 @@ export class TestComponent {
       if (bgFetch.result === '') {
         context.startDownload = true;
         update.state = 'fetching';
-        // context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
         context.downloadProgress = (bgFetch.downloadTotal / 1024 * 1024);
         context.downloaded  = bgFetch.downloaded;
         context.message = 'Downloading ..';
