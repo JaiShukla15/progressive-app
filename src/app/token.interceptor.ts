@@ -39,15 +39,6 @@ export class TokenInterceptor implements HttpInterceptor {
         } else if (error.status === 404) {
           // Handle not found error (e.g., show a 404 page)
         } else if (error.status === 504) {
-          // console.log(this.api.getEndpoints(error.url));
-          // switch (error.url) {
-          //    case URLS.USERS:{
-              // console.log('BACKGROUND SYNC USERS ####')
-              // this.api.backgroundSync('get-chat-users');
-              // break;
-          //    }
-          // }
-          // this.api.backgroundSync('send-message')
         }
         return throwError(error);
       })

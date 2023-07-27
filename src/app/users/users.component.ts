@@ -16,6 +16,7 @@ import { ApiService } from '../services/api.service';
 })
 export class UsersComponent {
   public users: Array<any> = [];
+  public message:string = '';
   constructor(
     private api:ApiService
   ){}
@@ -28,10 +29,18 @@ export class UsersComponent {
     }, (error) => {
       this.api.hideLoader();
       this.api.backgroundSync('get-users').then((message: any) => {
+        this.message = message;
+        this.vanishMessage();
         console.log(message, 'SYNC COMPLETED------');
       }).catch(err => {
         console.log(err, 'SYNC ERROR -----');
       })
     })
+  }
+
+  vanishMessage() {
+    setTimeout(() => {
+      this.message = '';
+    }, 2000);
   }
 }

@@ -16,6 +16,7 @@ import { ApiService } from '../services/api.service';
 })
 export class PostsComponent {
   public posts: Array<any> = [];
+  public message:string = '';
   constructor(private api: ApiService) { }
 
   ngOnInit() {

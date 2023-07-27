@@ -1,6 +1,7 @@
-<div class="users-wrapper">
+<div class="users-wrapper my-1">
   <h4>Background Sync Example</h4>
 
+  <p *ngIf="message" class="alert alert-success">{{message}}</p>
 <button class=" my-2 btn btn-primary" (click)="getData()">Get Data</button>
 
 <div class="row user-section">
