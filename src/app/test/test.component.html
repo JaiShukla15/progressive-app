@@ -1,4 +1,4 @@
-<div style="width: 100%;">
+<div style="width: 100%; margin-top: 20px;">
   <div class="col-md-12 col-xs-12">
 
     <p *ngIf="message" class="alert alert-success">{{message}}</p>
@@ -6,24 +6,24 @@
       <div>
         <button class="btn btn-primary" (click)="notifyMe()">Show notification</button>
         <br>
-        <h4 class="display-5"> Background Sync Example {{downloadProgress}}</h4>
+        <h4 class="display-5"> Background Fetch Example</h4>
       </div>
-    </div>
-    <div class="file-download">
-      <button class="btn btn-primary" (click)="downloadFile()">Download</button>
-      <span class="material-symbols-outlined">
-        description
-      </span>
-    </div>
-    <div class="progress blue" *ngIf="startDownload">
-      <span class="progress-left">
-        <span class="progress-bar"></span>
-      </span>
-      <span class="progress-right">
-        <span class="progress-bar"></span>
-      </span>
-      <div class="progress-value">{{downloadProgress}}</div>
     </div>
   </div>
   <hr>
+  <div class="row">
+    <p style="font-size: 20px;position: relative;font-weight: 500;width: 100%;">Introduction to Pwa &nbsp;
+      <span class="material-symbols-outlined download-icon"  (click)="downloadFile()">
+      download
+    </span></p>
+  </div>
+  <div class="progress blue">
+    <span class="progress-left">
+      <span class="progress-bar"></span>
+    </span>
+    <span class="progress-right">
+      <span class="progress-bar"></span>
+    </span>
+    <div class="progress-value">{{downloadProgress}}</div>
+  </div>
 </div>
