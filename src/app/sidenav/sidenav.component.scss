@@ -27,6 +27,7 @@ a:hover{
 }
 @media screen and (min-width: 391px) and (max-width: 429px) {
   .side-bar{
-    width: 80px;
+    width: 100%;
+    max-width: 80px;
    }
 }

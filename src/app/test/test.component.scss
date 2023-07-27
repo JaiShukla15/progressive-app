@@ -211,8 +211,19 @@ body{
   display: flex;
   align-items: center;
 }
+.user-section{
+  max-width: 1200px ;
+  overflow-y: scroll;
+  height: 80vh;
+}
 .card-footer {
   padding: .5rem 1rem;
   background-color: #fff;
   border-top: 0 solid rgba(0,0,0,.125);
+}
+
+@media screen and (min-width: 391px) and (max-width: 429px) {
+  .user-section{
+    width: 280px;
+  }
 }

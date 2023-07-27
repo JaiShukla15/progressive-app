@@ -90,7 +90,6 @@ export class TestComponent {
         event.waitUntil(
           (
             async function(){
-              that.downloadProgress = 100;
               alert('File Downloaded successfully !');
             }
           )
