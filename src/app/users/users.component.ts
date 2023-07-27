@@ -23,7 +23,6 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.detectConnectionStatus();
   }
 
   getData() {
@@ -35,6 +34,7 @@ export class UsersComponent implements OnInit {
       this.api.hideLoader();
       this.api.backgroundSync('get-users').then((message: any) => {
         console.log(message, 'SYNC COMPLETED------');
+        this.detectConnectionStatus();
       }).catch(err => {
         console.log(err, 'SYNC ERROR -----');
       })
@@ -48,9 +48,7 @@ export class UsersComponent implements OnInit {
   }
   detectConnectionStatus() {
     this.api.connectionStatus.subscribe((online: boolean) => {
-      if (online && navigator.onLine) {
         this.sync();
-      }
     })
   }
 
