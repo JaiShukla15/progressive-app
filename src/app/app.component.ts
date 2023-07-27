@@ -5,14 +5,17 @@ import { ApiService } from './services/api.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers:[
+    ApiService
+  ]
 })
 export class AppComponent {
 
   title = 'pwa';
   public isOnline: boolean = false;
   public isLogin:boolean = false;
-  public publicKey = 'BN69bTRuil6wT1gdV_daOX6usqgVZofjaFUDFz-2WtKeC2YlUGEMz8vvVbqhuA-cp8IwBFfrde6Dp3QhiEwgyfc';
+  public WEB_PUSH_KEY = 'BN69bTRuil6wT1gdV_daOX6usqgVZofjaFUDFz-2WtKeC2YlUGEMz8vvVbqhuA-cp8IwBFfrde6Dp3QhiEwgyfc';
   constructor(
     private update: SwUpdate,
     private swPush: SwPush,
@@ -60,7 +63,7 @@ export class AppComponent {
     }
 
     this.swPush.requestSubscription({
-      serverPublicKey:this.publicKey
+      serverPublicKey:this.WEB_PUSH_KEY
     }).then(sub=>{
       console.log(JSON.stringify(sub));
     }).catch(err=>console.log)
