@@ -100,11 +100,13 @@ export class TestComponent {
         this.context.vanishMessage();
       });
 
-      bgFetch.addEventListener('backgroundfetchclick', (event: any) => {
+      bgFetch.addEventListener('backgroundfetchclick', (event:any) => {
         const bgFetch = event.registration;
 
         if (bgFetch.result === 'success') {
-          alert('DOWNLOAD SUCCESS')
+          this.message = 'Downloaded :)';
+        } else {
+          this.message = 'Downloading Your file !!!!!';
         }
       });
 
