@@ -74,6 +74,8 @@ export class TestComponent {
         console.log(fetchProgress,'DOWNLOAD PROGRESS')
         // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
         this.context.downloadProgress = fetchProgress.downloaded;
+        this.message = fetchProgress.downloaded;
+        this.vanishMessage();
         // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
         //   fetchProgress.downloaded
         // )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
@@ -89,7 +91,7 @@ export class TestComponent {
         event.waitUntil(
           (
             async function () {
-              console.log('Completed ######');
+              await event.updateUI({ title: `File downloaded :)` });
             }
           )
         )
