@@ -143,12 +143,11 @@ export class TestComponent {
       if (bgFetch.result === '') {
         update.state = 'fetching';
         context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        alert(context.context.downloadProgress + '- PROGRESS');
+        alert(context.downloadProgress + '- PROGRESS');
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
-        context.context.downloadProgress = 1;
-        alert(context.context.downloadProgress + '- Download started');
-
+        context.downloadProgress = 1;
+        alert(context.downloadProgress + '- Download started');
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
       } else { // other failure
