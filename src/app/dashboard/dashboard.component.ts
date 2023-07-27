@@ -15,6 +15,9 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
     CommonModule,
     HeaderComponent,
     SidenavComponent
+  ],
+  providers:[
+    ApiService
   ]
 })
 export class DashboardComponent {
