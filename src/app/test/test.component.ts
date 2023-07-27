@@ -20,7 +20,7 @@ export class TestComponent {
   public users:Array<any> = [];
   public startDownload:boolean = false;
   public message:string = '';
-
+  public context:any = this;
   constructor(
     private api: ApiService
   ) { }
@@ -35,18 +35,22 @@ export class TestComponent {
       this.api.backgroundSync('get-users').then((message:any)=>{
         console.log(message,'SYNC COMPLETED------');
         this.message = message;
-        setTimeout(()=>{
-          this.message = '';
-        },2000);
+        this.vanishMessage();
       }).catch(err=>{
         console.log(err,'SYNC ERROR -----');
       })
     })
   }
 
+  vanishMessage(){
+    setTimeout(()=>{
+      this.message = '';
+    },2000);
+  }
+
   notifyMe() {
     this.api.showNotification().subscribe((data:any)=>{
-     console.log('Notificatio sent !');
+     console.log('Notification sent !');
     });
   };
   downloadFile() {
@@ -72,44 +76,36 @@ export class TestComponent {
         },
       );
 
-      this.monitorBgFetch(bgFetch);
-      let that = this;
+      this.monitorBgFetch(bgFetch,this.context);
       navigator.serviceWorker.ready.then(async (swReg:any) => {
         const ids = await swReg.backgroundFetch.getIds();
         console.log(ids,'IDS')
       });
 
       bgFetch.addEventListener('progress', (event:any) => {
-        // If we didn't provide a total, we can't provide a %.
-        // if (!bgFetch.downloadTotal) return;
         let fetchProgress = event.currentTarget;
 
         // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
-        that.downloadProgress = fetchProgress.downloaded;
+        this.context.downloadProgress = fetchProgress.downloaded;
         // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
         //   fetchProgress.downloaded
         // )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
         //   (fetchProgress.downloaded * 100) / fetchProgress.downloadTotal
         // )}%)`;
-        that.startDownload = true;
-        // alert(`Progress started ${that.downloadProgress}`);
+        this.context.startDownload = true;
+        // alert(`Progress started ${this.context.downloadProgress}`);
       });
 
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
+        this.context.message = 'File Downloaded successfully !';
+        this.context.vanishMessage();
         event.waitUntil(
           (
             async function(){
-              that.startDownload = false;
-              alert('File Downloaded successfully !');
+              console.log('Completed ######');
             }
           )
         )
-        const fetchRecords = event.fetches;
-        fetchRecords.forEach((fetchRecord: any) => {
-          // Handle the fetch success and process the fetched data here
-
-          alert('Background Fetch Success:'+JSON.stringify(fetchRecord));
-        });
       });
 
       // For Storing records in cache !!!!!
@@ -141,7 +137,8 @@ export class TestComponent {
       // });
 
       bgFetch.addEventListener('backgroundfetchfail', (event: any) => {
-         alert('Background Fetch Failed:');
+         this.message = 'Background Fetch Failed:';
+         this.context.vanishMessage();
       });
 
       bgFetch.addEventListener('backgroundfetchclick', (event:any) => {
@@ -149,28 +146,24 @@ export class TestComponent {
 
         if (bgFetch.result === 'success') {
           alert('DOWNLOAD SUCCESS')
-          console.log('');
-        } else {
-          console.log('DOWNLOAD PROGRESS'+JSON.stringify(bgFetch));
         }
       });
 
     });
   }
 
-  async monitorBgFetch(bgFetch:any) {
-    const that = this;
+  async monitorBgFetch(bgFetch:any,context:any) {
     function doUpdate() {
       const update:any = {};
 
       if (bgFetch.result === '') {
         update.state = 'fetching';
-        that.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        alert(that.downloadProgress+'- PROGRESS');
+        context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
+        alert(context.context.downloadProgress+'- PROGRESS');
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
-        that.downloadProgress = 1;
-        alert(that.downloadProgress+'- Download started');
+        context.context.downloadProgress = 1;
+        alert(context.context.downloadProgress+'- Download started');
 
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
