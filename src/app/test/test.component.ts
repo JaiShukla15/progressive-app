@@ -104,7 +104,15 @@ export class TestComponent {
   async monitorBgFetch(bgFetch: any, context: any) {
     function doUpdate(event:any) {
       let fetchProgress = event.currentTarget;
-      if (bgFetch.result === '') {
+      if (bgFetch.result === 'success') {
+        context.startDownload = true;
+        context.vanishMessage();
+      } else if (bgFetch.failureReason === 'aborted') {
+        context.message = 'Download aborted';
+        context.vanishMessage();
+      } else {
+        // context.message = 'Downloading Failed';
+        // context.vanishMessage();
         context.startDownload = true;
         context.downloadProgress = (fetchProgress.downloaded / 1024 * 1024);
         context.downloaded  = bgFetch.downloaded;
@@ -112,15 +120,6 @@ export class TestComponent {
           alert('Download completed !');
         }
         context.message = 'Downloading ..';
-        context.vanishMessage();
-      } else if (bgFetch.result === 'success') {
-        context.startDownload = true;
-        context.vanishMessage();
-      } else if (bgFetch.failureReason === 'aborted') {
-        context.message = 'Download aborted';
-        context.vanishMessage();
-      } else {
-        context.message = 'Downloading Failed';
         context.vanishMessage();
       }
 
