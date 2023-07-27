@@ -87,10 +87,10 @@ export class TestComponent {
       });
 
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
-        that.startDownload = false;
         event.waitUntil(
           (
             async function(){
+              that.startDownload = false;
               alert('File Downloaded successfully !');
             }
           )
@@ -132,11 +132,7 @@ export class TestComponent {
       // });
 
       bgFetch.addEventListener('backgroundfetchfail', (event: any) => {
-        const fetchRecords = event.fetches;
-        fetchRecords.forEach((fetchRecord: any) => {
-          // Handle the fetch failure here
-          console.error('Background Fetch Failed:', fetchRecord);
-        });
+         alert('Background Fetch Failed:');
       });
 
       bgFetch.addEventListener('backgroundfetchclick', (event:any) => {
