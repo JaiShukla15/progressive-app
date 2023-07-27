@@ -1,4 +1,4 @@
-<section style="background-color: #CDC4F9;">
+<div style="width: 100%;">
   <div >
 
     <div class="row" *ngIf="users?.length; else nousers">
@@ -53,7 +53,7 @@
 
               </div>
 
-              <div class="col-md-12 col-lg-5 col-xl-4 mb-4 mb-md-0" *ngIf="users.length && !selected_userId && isMobile">
+              <div class="col-md-6 col-xs-12 col-lg-5 col-xl-4 mb-4 mb-md-0" *ngIf="users.length && !selected_userId && isMobile">
                 <ng-container>
                   <div data-mdb-perfect-scrollbar="true" style="position: relative; height: 800px">
                     <ul class="list-unstyled mb-0">
@@ -83,7 +83,7 @@
                   </div>
                 </ng-container>
               </div>
-              <div class="col-md-6 col-lg-7 col-xl-8" style="border:1px solid #ccc;border-radius: 8px;" [ngClass]="{'col-sm-12 col-md-12 col-xs-12':isMobile,}">
+              <div class="col-md-6 col-xs-12 col-lg-7 col-xl-8" style="border:1px solid #ccc;border-radius: 8px;" [ngClass]="{'col-sm-12 col-md-12 col-xs-12':isMobile}">
 
                 <span class="material-symbols-outlined" (click)="backToUsers()">
                   arrow_back
@@ -120,9 +120,9 @@
                     </h5>
 
                 </div>
-                <div  style="position: relative;bottom:30px;width: 100%;padding:10px;border:2px solid #ccc;border-radius: 8px;height: 100px;" class="text-muted d-flex justify-content-start align-items-center mt-4">
+                <div  style="position: relative;bottom:10px;width: 100%;padding:10px;border:2px solid #ccc;border-radius: 8px;height: 100px;" class="text-muted d-flex justify-content-start align-items-center mt-4">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                    alt="avatar 3" style="width: 40px; height: 100%;">
+                    alt="avatar 3" style="width: 70px; height: 70px">
                   <input type="text" [(ngModel)]="message"  class="form-control form-control-lg" id="exampleFormControlInput2"
                     placeholder="Type message">
                   <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
@@ -193,7 +193,7 @@
       </div>
     </div>
   <ng-template #nousers>
-    <h4 class="text-center display-4" style="background: #fff;">No users found</h4>
+    <h4 class="text-center display-5" style="background: #fff;">No users found</h4>
   </ng-template>
   </div>
-</section>
+</div>

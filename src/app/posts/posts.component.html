@@ -7,7 +7,7 @@
         <th scope="col">Description</th>
       </tr>
     </thead>
-    <tbody style="max-height: 80vh;overflow-y: scroll;">
+    <tbody style="max-height:100%;overflow-y: scroll;position: fixed;width: 100%;">
       <tr *ngFor="let post of posts">
         <th scope="row">{{post.id}}</th>
         <td>{{post?.title}}</td>

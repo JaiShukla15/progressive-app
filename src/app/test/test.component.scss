@@ -1,9 +1,14 @@
+*{
+  display: inline-block;
+  padding:0.4em;
+}
+
 .file-download{
   display: flex;
   column-gap: 20px;
 }
 body{
-  background-color: #7E57C2;
+  background-color: #049dff;
 }
 
 .mt-100{
