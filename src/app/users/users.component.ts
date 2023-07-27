@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -48,10 +48,9 @@ export class UsersComponent implements OnInit {
       this.message = '';
     }, 2000);
   }
+  @HostListener('window:online', ['$event'])
   detectConnectionStatus() {
-    this.api.connectionStatus.subscribe((online: boolean) => {
-        this.sync();
-    })
+    this.sync();
   }
 
   sync() {
