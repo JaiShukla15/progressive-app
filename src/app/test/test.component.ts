@@ -120,18 +120,21 @@ export class TestComponent {
       const update: any = {};
 
       if (bgFetch.result === '') {
+        context.context.startDownload = true;
         update.state = 'fetching';
         context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
         context.message = 'Downloading ..';
         context.vanishMessage();
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
-        context.downloadProgress = 1;
-        alert(context.downloadProgress + '- Download started');
+        context.downloadProgress = 100;
+        context.vanishMessage();
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
       } else { // other failure
         update.state = 'failed';
+        context.message = 'Downloading Failed';
+        context.vanishMessage();
       }
 
     };
