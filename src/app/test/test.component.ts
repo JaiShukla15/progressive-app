@@ -71,6 +71,12 @@ export class TestComponent {
         console.log(ids, 'IDS')
       });
 
+      bgFetch.addEventListener('progress', (event: any) => {
+        let fetchProgress = event.currentTarget;
+        this.context.downloadProgress = (fetchProgress.downloaded * (1024 * 1024));
+        this.context.startDownload = true;
+      });
+
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
         this.context.message = 'File Downloaded successfully !';
         this.context.vanishMessage();
@@ -102,30 +108,34 @@ export class TestComponent {
   }
 
   async monitorBgFetch(bgFetch: any, context: any) {
-    function doUpdate(event:any) {
-      let fetchProgress = event.currentTarget;
-      if (bgFetch.result === 'success') {
+    function doUpdate() {
+      const update: any = {};
+
+      if (bgFetch.result === '') {
         context.startDownload = true;
-        context.vanishMessage();
-      } else if (bgFetch.failureReason === 'aborted') {
-        context.message = 'Download aborted';
-        context.vanishMessage();
-      } else {
-        // context.message = 'Downloading Failed';
-        // context.vanishMessage();
-        context.startDownload = true;
-        context.downloadProgress = fetchProgress.downloaded;
+        update.state = 'fetching';
+        // context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
+        context.downloadProgress = (bgFetch.downloadTotal / 1024 * 1024);
         context.downloaded  = bgFetch.downloaded;
-        if(fetchProgress.downloaded===0){
-          alert('Download completed !');
-        }
         context.message = 'Downloading ..';
+        context.vanishMessage();
+      } else if (bgFetch.result === 'success') {
+        update.state = 'fetching';
+        context.message = 'Downloaded Check';
+        context.downloadProgress = 100;
+        context.startDownload = true;
+        context.vanishMessage();
+      } else if (bgFetch.failureReason === 'aborted') { // Failure
+        update.state = 'not-stored';
+      } else { // other failure
+        update.state = 'failed';
+        context.message = 'Downloading Failed';
         context.vanishMessage();
       }
 
     };
 
-    // doUpdate();
+    doUpdate();
 
     bgFetch.addEventListener('progress', doUpdate);
   }
