@@ -15,9 +15,10 @@ import { CommonModule } from '@angular/common';
 export class TestComponent {
 
   public abortControllers = new Map();
-  public backgroundFetchUrl: string = 'https://speed.hetzner.de/100MB.bin';
+  public backgroundFetchUrl: string = 'https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf';
   public downloadProgress:number = 0;
   public users:Array<any> = [];
+  public startDownload:boolean = false;
 
   constructor(
     private api: ApiService
@@ -43,10 +44,10 @@ export class TestComponent {
     console.log('Starting background Fetch ----');
     navigator.serviceWorker.ready.then(async (swReg: any) => {
 
-      console.log(swReg, 'REGISTRATION---')
       const bgFetch = await swReg.backgroundFetch.fetch(
         "bg-fetch-4",
-        ["https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf"
+        [
+          this.backgroundFetchUrl
         ],
 
         {
@@ -64,7 +65,6 @@ export class TestComponent {
 
       this.monitorBgFetch(bgFetch);
       let that = this;
-      console.log(bgFetch, 'BACKGROUND FETCH ########');
       navigator.serviceWorker.ready.then(async (swReg:any) => {
         const ids = await swReg.backgroundFetch.getIds();
         console.log(ids,'IDS')
@@ -76,17 +76,18 @@ export class TestComponent {
         let fetchProgress = event.currentTarget;
 
         // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
-        this.downloadProgress = fetchProgress.downloaded;
+        that.downloadProgress = fetchProgress.downloaded;
         // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
         //   fetchProgress.downloaded
         // )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
         //   (fetchProgress.downloaded * 100) / fetchProgress.downloadTotal
         // )}%)`;
-
-        alert(`Progress started ${this.downloadProgress}`);
+        that.startDownload = true;
+        // alert(`Progress started ${that.downloadProgress}`);
       });
 
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
+        that.startDownload = false;
         event.waitUntil(
           (
             async function(){

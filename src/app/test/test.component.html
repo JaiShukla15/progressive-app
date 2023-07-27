@@ -17,14 +17,14 @@
         description
       </span>
     </div>
-    <div class="progress blue">
+    <div class="progress blue" *ngIf="startDownload">
       <span class="progress-left">
         <span class="progress-bar"></span>
       </span>
       <span class="progress-right">
         <span class="progress-bar"></span>
       </span>
-      <div class="progress-value">{{downloadProgress}}</div>
+      <div class="progress-value">{{downloadProgress || 0}}</div>
     </div>
   </div>
   <hr>

@@ -1,8 +1,11 @@
 *{
-  display: inline-block;
+  width: 100%;
   padding:0.4em;
 }
 
+button{
+  max-width: 178px !important;
+}
 .file-download{
   display: flex;
   column-gap: 20px;
@@ -15,10 +18,9 @@ body{
   margin-top: 200px;
 }
 .progress {
-  width: 150px;
-  height: 150px !important;
+  width: 80px;
+  height: 80px !important;
   float: left;
-  line-height: 150px;
   background: none;
   margin: 20px;
   box-shadow: none;
@@ -79,13 +81,14 @@ body{
   height: 90%;
   border-radius: 50%;
   background: #000;
-  font-size: 24px;
+  font-size: 25px;
   color: #fff;
-  line-height: 135px;
-  text-align: center;
+  line-height: 50px;
   position: absolute;
+  text-align: center;
   top: 5%;
-  left: 5%;
+  margin: 0 auto;
+  left: 5%;;
 }
 .progress.blue .progress-bar {
   border-color: #049dff;
@@ -213,7 +216,7 @@ body{
 }
 .user-section{
   max-width: 1200px ;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 80vh;
 }
 .card-footer {
