@@ -11,6 +11,8 @@ export class ApiService {
 
   public userId = localStorage.getItem('userId');
   public loader:boolean = false;
+  public connectionStatus:boolean  = true;
+  public showMsg = false;
   constructor(private http: HttpClient, private router: Router) { }
 
   login(payload: any) {
@@ -60,7 +62,7 @@ export class ApiService {
       navigator.serviceWorker.ready.then((swRegisteration: any) => {
         swRegisteration.sync.register(eventName).then(()=>{
           // Background sync registration was successful
-          resolve('Syncing... ')
+          resolve('Background sync is registered !')
         }).catch(()=>{
              // Background sync registration failed
            reject('Something went wrong ....');
@@ -80,5 +82,13 @@ export class ApiService {
   }
   hideLoader(){
     this.loader = false;
+  }
+
+  updateConnectionStatus(online:boolean){
+    this.connectionStatus = online;
+    this.showMsg = true;
+    setInterval(()=>{
+      this.showMsg = false;
+    },2000);
   }
 }

@@ -20,7 +20,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 export class DashboardComponent {
 
   public posts: Observable<any> = of(null);
-  constructor(private api: ApiService) { }
+  constructor(public api: ApiService) { }
 
   ngOnInit() {
     this.posts = this.api.getPosts();

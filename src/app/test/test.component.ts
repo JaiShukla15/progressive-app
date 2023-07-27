@@ -19,6 +19,7 @@ export class TestComponent {
   public downloadProgress:number = 0;
   public users:Array<any> = [];
   public startDownload:boolean = false;
+  public message:string = '';
 
   constructor(
     private api: ApiService
@@ -33,10 +34,12 @@ export class TestComponent {
       this.api.hideLoader();
       this.api.backgroundSync('get-users').then((message:any)=>{
         console.log(message,'SYNC COMPLETED------');
-        alert(message);
+        this.message = message;
+        setTimeout(()=>{
+          this.message = '';
+        },2000);
       }).catch(err=>{
         console.log(err,'SYNC ERROR -----');
-
       })
     })
   }

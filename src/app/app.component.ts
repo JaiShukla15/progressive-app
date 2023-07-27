@@ -33,9 +33,11 @@ export class AppComponent {
   updateOnlineStatus() {
     this.isOnline = navigator.onLine;
     if (this.isOnline) {
+      this.api.updateConnectionStatus(true);
       console.log('User is online');
     } else {
       console.log('User is offline');
+      this.api.updateConnectionStatus(false);
     }
   }
 

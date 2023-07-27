@@ -20,7 +20,7 @@ self.addEventListener('sync', (event) => {
   }
   else if(event.tag ==='get-users'){
     let usersData = getUsers();
-    alert('Fetching data .....');
+    console.log(this,'INSIDE SERVICE WORKER ********');
     event.waitUntil(usersData);
     (
       async()=>{
