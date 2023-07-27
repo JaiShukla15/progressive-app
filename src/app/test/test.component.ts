@@ -114,7 +114,7 @@ export class TestComponent {
         // context.message = 'Downloading Failed';
         // context.vanishMessage();
         context.startDownload = true;
-        context.downloadProgress = (fetchProgress.downloaded / 1024 * 1024);
+        context.downloadProgress = fetchProgress.downloaded;
         context.downloaded  = bgFetch.downloaded;
         if(fetchProgress.downloaded===0){
           alert('Download completed !');
