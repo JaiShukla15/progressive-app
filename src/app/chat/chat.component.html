@@ -1,11 +1,11 @@
 <div style="width: 100%;">
   <div >
 
-    <div class="row" *ngIf="users?.length; else nousers">
-      <div class="col-md-12">
+    <div *ngIf="users?.length; else nousers">
+      <div style="height: 90vh;overflow-y: scroll;">
 
-        <div class="card" id="chat3" style="border-radius: 15px;">
-          <div class="card-body">
+        <div  id="chat3" style="border-radius: 15px;">
+          <div>
 
             <div class="row">
               <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0" *ngIf="users.length && !selected_userId && !isMobile">
@@ -135,57 +135,6 @@
               </div>
             </div>
 
-            <!-- <div class="col-md-6 col-lg-7 col-xl-8" *ngIf="isMobile && selected_userId">
-
-              <div  class="col-sm-12" data-mdb-perfect-scrollbar="true"
-                style="position: relative;overflow-y: auto;height: 80vh;">
-
-                <span class="material-symbols-outlined" (click)="backToUsers()">
-                  arrow_back
-                  </span>
-
-                <ng-container *ngFor="let chat of chat_info" >
-                  <div class="d-flex flex-row justify-content-start col-md-12 col-sm-12" *ngIf="chat.sender_id!==loggedInUser">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                      alt="avatar 1" style="width: 45px; height: 100%;">
-                    <div>
-                      <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">
-                           {{chat.message}}
-                      </p>
-                      <p class="small ms-3 mb-3 rounded-3 text-muted float-end">{{chat.createdAt | date:'MM/dd/yy h:mm:ss a'}}</p>
-                    </div>
-                  </div>
-
-                  <div class="d-flex flex-row justify-content-end col-md-12 col-sm-12" *ngIf="chat.sender_id===loggedInUser">
-                    <div>
-                      <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                        {{chat.message}}
-                      </p>
-                      <p class="small me-3 mb-3 rounded-3 text-muted">{{chat.createdAt | date:'MM/dd/yy h:mm:ss a'}}</p>
-                    </div>
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                      alt="avatar 1" style="width: 45px; height: 100%;">
-                  </div>
-
-                </ng-container>
-                  <h5 *ngIf="!chat_info.length" class="text-center display-6 py-6 col-md-12 col-sm-12">
-                    write something to start a conversation
-                  </h5>
-
-              </div>
-              <div  style="position: absolute;bottom:30px;width: 65%;padding:10px;border:2px solid #ccc;border-radius: 8px;height: 80px; " class="text-muted d-flex justify-content-start align-items-center mt-4 col-md-12 col-sm-12">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp"
-                  alt="avatar 3" style="width: 40px; height: 100%;">
-                <input type="text" [(ngModel)]="message"  class="form-control form-control-lg" id="exampleFormControlInput2"
-                  placeholder="Type message">
-                <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
-                <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
-                <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
-                <button class="btn btn-primary" (click)="sendMessage()">Send</button>
-              </div>
-
-
-            </div> -->
 
           </div>
         </div>

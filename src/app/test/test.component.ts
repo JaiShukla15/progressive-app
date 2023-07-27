@@ -18,7 +18,6 @@ export class TestComponent {
   public abortControllers = new Map();
   public backgroundFetchUrl: string = 'https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf';
   public downloadProgress: number = 0;
-  public users: Array<any> = [];
   public startDownload: boolean = false;
   public message: string = '';
   public context: any = this;
@@ -28,30 +27,6 @@ export class TestComponent {
     private api: ApiService
   ) { }
 
-  getData() {
-    this.detectConectionTimeout();
-    this.api.showLoader();
-    this.subscriptions.push(this.api.getUsers().subscribe(async (res: any) => {
-      this.users = res;
-      this.api.hideLoader();
-    }, (error) => {
-      this.api.hideLoader();
-      this.api.backgroundSync('get-users').then((message: any) => {
-        console.log(message, 'SYNC COMPLETED------');
-        this.message = message;
-        this.vanishMessage();
-      }).catch(err => {
-        console.log(err, 'SYNC ERROR -----');
-      })
-    }))
-  }
-
-
-  detectConectionTimeout() {
-    this.api.connectionStatus.subscribe(async (online: boolean) => {
-        this.message = online ? 'connected' : 'connection timeout';
-    })
-  }
 
   vanishMessage() {
     setTimeout(() => {
@@ -143,7 +118,8 @@ export class TestComponent {
       if (bgFetch.result === '') {
         update.state = 'fetching';
         context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        alert(context.downloadProgress + '- PROGRESS');
+        context.message = 'Downloading ..';
+        context.vanishMessage();
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
         context.downloadProgress = 1;

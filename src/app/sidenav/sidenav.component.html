@@ -8,13 +8,10 @@
                       <i class="material-symbols-outlined">
                         house
                         </i>
-
                       <span class="ms-1 d-none d-sm-inline">
                             &nbsp;
                           Home
-
                         </span>
-
                     </a>
                 </li>
                 <li class="nav-item">
@@ -23,7 +20,7 @@
                         chat
                         </i>
                         <span class="ms-1 d-none d-sm-inline">
-                          Chat &nbsp;
+                          Home &nbsp;
                         </span>
                       </a>
                 </li>
@@ -32,14 +29,24 @@
                     <a [routerLink]="['/dashboard/test']" class="nav-link px-0 align-middle">
                         <i class="material-symbols-outlined">
                           info
-                         </i>&nbsp;
+                         </i>
                         <span class="ms-1 d-none d-sm-inline">
                           Test
                         </span>
                       </a>
                 </li>
-                <li>
-                  <a [routerLink]="['/dashboard/test']"class="nav-link align-middle px-0 my-2">
+                <li class="nav-item">
+                  <a [routerLink]="['/dashboard/users']" class="nav-link px-0 align-middle">
+                      <i class="material-symbols-outlined">
+                        people
+                       </i>
+                      <span class="ms-1 d-none d-sm-inline">
+                        Users
+                      </span>
+                  </a>
+              </li>
+                <li class="nav-item">
+                  <a [routerLink]="['/dashboard/test']"class="nav-link align-middle px-0">
                     <i class="material-symbols-outlined">
                       logout
                       </i>
