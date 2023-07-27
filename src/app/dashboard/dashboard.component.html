@@ -1,5 +1,5 @@
 <app-header></app-header>
-<p [ngIf]="api.showMsg" class="alert" [ngClass]="{'alert-success':isOnline,'alert-danger':!isOnline}">
+<p *ngIf="api.showMsg" class="alert" [ngClass]="{'alert-success':isOnline,'alert-danger':!isOnline}">
   {{isOnline ? 'Connected' : 'Connection timeout'}}
 </p>
 <app-sidenav></app-sidenav>

@@ -89,7 +89,7 @@ export class ApiService {
     this.connectionStatus.next(online);
     this.showMsg = true;
     setInterval(()=>{
-    this.connectionStatus.next(false);
+      this.showMsg = true;
     },2000);
   }
 }
