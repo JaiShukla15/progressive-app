@@ -18,7 +18,7 @@
     </span></p>
   </div>
 
-  <p>{{downloadProgress}}</p>
+  <p *ngIf="downloadProgress" class="download-text">{{'('+downloadProgress+')'}} MB Remaining</p>
   <!-- <div class="progress blue">
     <span class="progress-left">
       <span class="progress-bar"></span>

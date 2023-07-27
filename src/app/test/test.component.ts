@@ -71,23 +71,6 @@ export class TestComponent {
         console.log(ids, 'IDS')
       });
 
-      bgFetch.addEventListener('progress', (event: any) => {
-        let fetchProgress = event.currentTarget;
-        console.log(fetchProgress,'DOWNLOAD PROGRESS')
-        this.context.downloadProgress = Math.round(fetchProgress.downloaded * 100 / 5242880);
-        this.fileSize = fetchProgress.downloaded;
-        // this.context.downloadProgress = fetchProgress.downloaded;
-        this.message = fetchProgress.downloaded;
-        this.vanishMessage();
-        // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
-        //   fetchProgress.downloaded
-        // )}  from ${bytesToSize(fetchProgress.downloadTotal)} (${Math.round(
-        //   (fetchProgress.downloaded * 100) / fetchProgress.downloadTotal
-        // )}%)`;
-        this.context.startDownload = true;
-        // alert(`Progress started ${this.context.downloadProgress}`);
-      });
-
       bgFetch.addEventListener('backgroundfetchsuccess', (event: any) => {
         this.context.message = 'File Downloaded successfully !';
         this.context.vanishMessage();
@@ -119,34 +102,31 @@ export class TestComponent {
   }
 
   async monitorBgFetch(bgFetch: any, context: any) {
-    function doUpdate() {
-      const update: any = {};
-
+    function doUpdate(event:any) {
+      let fetchProgress = event.currentTarget;
       if (bgFetch.result === '') {
         context.startDownload = true;
-        update.state = 'fetching';
-        // context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        context.downloadProgress = (bgFetch.downloadTotal / 1024 * 1024);
+        context.downloadProgress = (fetchProgress.downloaded / 1024 * 1024);
         context.downloaded  = bgFetch.downloaded;
+        if(fetchProgress.downloaded){
+          alert('Download completed !');
+        }
         context.message = 'Downloading ..';
         context.vanishMessage();
       } else if (bgFetch.result === 'success') {
-        update.state = 'fetching';
-        context.message = 'Downloaded Check';
-        context.downloadProgress = 100;
         context.startDownload = true;
         context.vanishMessage();
-      } else if (bgFetch.failureReason === 'aborted') { // Failure
-        update.state = 'not-stored';
-      } else { // other failure
-        update.state = 'failed';
+      } else if (bgFetch.failureReason === 'aborted') {
+        context.message = 'Download aborted';
+        context.vanishMessage();
+      } else {
         context.message = 'Downloading Failed';
         context.vanishMessage();
       }
 
     };
 
-    doUpdate();
+    // doUpdate();
 
     bgFetch.addEventListener('progress', doUpdate);
   }
