@@ -1,14 +1,13 @@
-<div class="container">
+<div style="width: 100%;">
   <div class="col-md-12 col-xs-12">
 
     <p *ngIf="message" class="alert alert-success">{{message}}</p>
-
-    <h4 class="display-5"> Background Fetch Example {{downloadProgress}}</h4>
-
     <div class="w-100">
       <div>
         <button class="btn btn-primary" (click)="notifyMe()">Show notification</button>
         <br>
+        <h4 class="display-5"> Background Sync Example {{downloadProgress}}</h4>
+        <hr>
         <button class=" my-2 btn btn-primary" (click)="getData()">Get Data</button>
       </div>
     </div>
@@ -33,7 +32,7 @@
 <div class="row user-section">
   <ng-container *ngFor="let user of users">
 
-    <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
+    <div class="col-md-3 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
       <div class="card">
         <img src="https://www.bootdey.com/image/340x120/BA55D3/000000" alt="Cover" class="card-img-top">
         <div class="card-body text-center">

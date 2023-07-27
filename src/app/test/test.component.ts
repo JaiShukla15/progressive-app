@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../services/api.service';
-import { Observable, of } from 'rxjs';
+import {  Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,49 +8,60 @@ import { CommonModule } from '@angular/common';
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.scss'],
   standalone: true,
-  imports:[
+  imports: [
     CommonModule
   ]
 })
+
 export class TestComponent {
 
   public abortControllers = new Map();
   public backgroundFetchUrl: string = 'https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf';
-  public downloadProgress:number = 0;
-  public users:Array<any> = [];
-  public startDownload:boolean = false;
-  public message:string = '';
-  public context:any = this;
+  public downloadProgress: number = 0;
+  public users: Array<any> = [];
+  public startDownload: boolean = false;
+  public message: string = '';
+  public context: any = this;
+  public subscriptions: Array<Subscription> = [];
+  public broadcastChannel = new BroadcastChannel('progressive-web');
   constructor(
     private api: ApiService
   ) { }
 
   getData() {
+    this.detectConectionTimeout();
     this.api.showLoader();
-    this.api.getUsers().subscribe(async (res: any) => {
+    this.subscriptions.push(this.api.getUsers().subscribe(async (res: any) => {
       this.users = res;
       this.api.hideLoader();
     }, (error) => {
       this.api.hideLoader();
-      this.api.backgroundSync('get-users').then((message:any)=>{
-        console.log(message,'SYNC COMPLETED------');
+      this.api.backgroundSync('get-users').then((message: any) => {
+        console.log(message, 'SYNC COMPLETED------');
         this.message = message;
         this.vanishMessage();
-      }).catch(err=>{
-        console.log(err,'SYNC ERROR -----');
+      }).catch(err => {
+        console.log(err, 'SYNC ERROR -----');
       })
+    }))
+  }
+
+
+  detectConectionTimeout() {
+    this.api.connectionStatus.subscribe(async (online: boolean) => {
+        this.message = online ? 'connected' : 'connection timeout';
     })
   }
 
-  vanishMessage(){
-    setTimeout(()=>{
+  vanishMessage() {
+    setTimeout(() => {
       this.message = '';
-    },2000);
+    }, 2000);
   }
 
   notifyMe() {
-    this.api.showNotification().subscribe((data:any)=>{
-     console.log('Notification sent !');
+    this.api.showNotification().subscribe((data: any) => {
+      console.log('Notification sent !');
     });
   };
   downloadFile() {
@@ -76,15 +87,16 @@ export class TestComponent {
         },
       );
 
-      this.monitorBgFetch(bgFetch,this.context);
-      navigator.serviceWorker.ready.then(async (swReg:any) => {
+      this.monitorBgFetch(bgFetch, this.context);
+
+      navigator.serviceWorker.ready.then(async (swReg: any) => {
         const ids = await swReg.backgroundFetch.getIds();
-        console.log(ids,'IDS')
+        console.log(ids, 'IDS')
       });
 
-      bgFetch.addEventListener('progress', (event:any) => {
+      bgFetch.addEventListener('progress', (event: any) => {
         let fetchProgress = event.currentTarget;
-
+        console.log(fetchProgress,'DOWNLOAD PROGRESS')
         // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
         this.context.downloadProgress = fetchProgress.downloaded;
         // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
@@ -101,47 +113,19 @@ export class TestComponent {
         this.context.vanishMessage();
         event.waitUntil(
           (
-            async function(){
+            async function () {
               console.log('Completed ######');
             }
           )
         )
       });
 
-      // For Storing records in cache !!!!!
-
-      // bgFetch.addEventListener('backgroundfetchsuccess', event => {
-      //   console.log('[Service Worker] Background Fetch Success', event.registration);
-      //   event.waitUntil(
-      //     (async function() {
-      //       try {
-      //         // Iterating the records to populate the cache
-      //         const cache = await caches.open(event.registration.id);
-      //         const records = await event.registration.matchAll();
-      //         const promises = records.map(async record => {
-      //           const response = await record.responseReady;
-      //           await cache.put(record.request, response);
-      //         });
-      //         console.log(records,'RECORDS #####');
-      //         await Promise.all(promises);
-
-      //         // [Optional] This could be an API call to our backend
-
-      //         // Updating UI
-      //         alert('Download is ready #####');
-      //       } catch (err) {
-      //         alert('Download is failed #####');
-      //       }
-      //     })()
-      //   );
-      // });
-
       bgFetch.addEventListener('backgroundfetchfail', (event: any) => {
-         this.message = 'Background Fetch Failed:';
-         this.context.vanishMessage();
+        this.message = 'Background Fetch Failed:';
+        this.context.vanishMessage();
       });
 
-      bgFetch.addEventListener('backgroundfetchclick', (event:any) => {
+      bgFetch.addEventListener('backgroundfetchclick', (event: any) => {
         const bgFetch = event.registration;
 
         if (bgFetch.result === 'success') {
@@ -152,18 +136,18 @@ export class TestComponent {
     });
   }
 
-  async monitorBgFetch(bgFetch:any,context:any) {
+  async monitorBgFetch(bgFetch: any, context: any) {
     function doUpdate() {
-      const update:any = {};
+      const update: any = {};
 
       if (bgFetch.result === '') {
         update.state = 'fetching';
         context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        alert(context.context.downloadProgress+'- PROGRESS');
+        alert(context.context.downloadProgress + '- PROGRESS');
       } else if (bgFetch.result === 'success') {
         update.state = 'fetching';
         context.context.downloadProgress = 1;
-        alert(context.context.downloadProgress+'- Download started');
+        alert(context.context.downloadProgress + '- Download started');
 
       } else if (bgFetch.failureReason === 'aborted') { // Failure
         update.state = 'not-stored';
@@ -178,7 +162,7 @@ export class TestComponent {
     bgFetch.addEventListener('progress', doUpdate);
   }
 
-  bytesToSize(bytes:any, decimals:any) {
+  bytesToSize(bytes: any, decimals: any) {
     if (bytes == 0) return '0 Bytes';
     var k = 1024,
       dm = decimals <= 0 ? 0 : decimals || 2,
@@ -187,5 +171,11 @@ export class TestComponent {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-
+  ngOnDestroy() {
+    if (this.subscriptions.length) {
+      this.subscriptions.forEach((sub: Subscription) => {
+        sub.unsubscribe();
+      })
+    }
+  }
 }
