@@ -74,7 +74,7 @@ export class TestComponent {
       bgFetch.addEventListener('progress', (event: any) => {
         let fetchProgress = event.currentTarget;
         console.log(fetchProgress,'DOWNLOAD PROGRESS')
-        this.context.downloadProgress = Math.round(fetchProgress.downloaded * 100 / bgFetch.downloadTotal);
+        this.context.downloadProgress = Math.round(fetchProgress.downloaded * 100 / 5242880);
         this.fileSize = fetchProgress.downloaded;
         // this.context.downloadProgress = fetchProgress.downloaded;
         this.message = fetchProgress.downloaded;
