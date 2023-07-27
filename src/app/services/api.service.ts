@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BASE_URL, BASE_URL_API, BASE_URL_LOCAL_API } from 'src/environments/environment';
 import { URLS } from '../constant';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ApiService {
 
   public userId = localStorage.getItem('userId');
   public loader:boolean = false;
-  public connectionStatus:boolean  = true;
+  public connectionStatus = new BehaviorSubject(true);
   public showMsg = false;
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -85,10 +86,10 @@ export class ApiService {
   }
 
   updateConnectionStatus(online:boolean){
-    this.connectionStatus = online;
+    this.connectionStatus.next(online);
     this.showMsg = true;
     setInterval(()=>{
-      this.showMsg = false;
+    this.connectionStatus.next(false);
     },2000);
   }
 }

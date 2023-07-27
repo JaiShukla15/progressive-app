@@ -23,11 +23,13 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 export class DashboardComponent {
 
   public posts: Observable<any> = of(null);
-  public isOnline:any;
+  public isOnline:boolean = true;
   constructor(public api: ApiService) { }
 
   ngOnInit() {
-    this.isOnline = this.api.connectionStatus;
+    this.api.connectionStatus.subscribe((status:boolean)=>{
+      this.isOnline = status;
+    })
     this.posts = this.api.getPosts();
   }
 }
