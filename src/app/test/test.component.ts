@@ -24,6 +24,7 @@ export class TestComponent {
   public context: any = this;
   public subscriptions: Array<Subscription> = [];
   public broadcastChannel = new BroadcastChannel('progressive-web');
+  public fileSize:number = 0;
   constructor(
     private api: ApiService
   ) { }
@@ -73,8 +74,9 @@ export class TestComponent {
       bgFetch.addEventListener('progress', (event: any) => {
         let fetchProgress = event.currentTarget;
         console.log(fetchProgress,'DOWNLOAD PROGRESS')
-        // const percent = Math.round(bgFetch.downloaded * 100 / bgFetch.downloadTotal);
-        this.context.downloadProgress = fetchProgress.downloaded;
+        this.context.downloadProgress = Math.round(fetchProgress.downloaded * 100 / bgFetch.downloadTotal);
+        this.fileSize = fetchProgress.downloaded;
+        // this.context.downloadProgress = fetchProgress.downloaded;
         this.message = fetchProgress.downloaded;
         this.vanishMessage();
         // progressStatus.innerHTML = `Progress: downloaded ${bytesToSize(
@@ -124,7 +126,7 @@ export class TestComponent {
         context.startDownload = true;
         update.state = 'fetching';
         // context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
-        context.downloadProgress = bgFetch.downloadTotal;
+        context.downloadProgress = (bgFetch.downloadTotal / 1024 * 1024);
         context.downloaded  = bgFetch.downloaded;
         context.message = 'Downloading ..';
         context.vanishMessage();
