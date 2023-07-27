@@ -18,6 +18,7 @@ export class TestComponent {
   public abortControllers = new Map();
   public backgroundFetchUrl: string = 'https://www.eurofound.europa.eu/sites/default/files/ef_publication/field_ef_document/ef1710en.pdf';
   public downloadProgress: number = 0;
+  public downloaded: number = 0;
   public startDownload: boolean = false;
   public message: string = '';
   public context: any = this;
@@ -124,6 +125,7 @@ export class TestComponent {
         update.state = 'fetching';
         // context.downloadProgress = bgFetch.downloaded / bgFetch.downloadTotal;
         context.downloadProgress = bgFetch.downloadTotal;
+        context.downloaded  = bgFetch.downloaded;
         context.message = 'Downloading ..';
         context.vanishMessage();
       } else if (bgFetch.result === 'success') {

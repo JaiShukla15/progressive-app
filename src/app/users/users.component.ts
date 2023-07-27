@@ -1,25 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss'],
-  standalone:true,
-  imports:[
-    CommonModule
-  ],
+  standalone: true,
   providers:[
     ApiService
+  ],
+  imports: [
+    CommonModule
   ]
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   public users: Array<any> = [];
-  public message:string = '';
+  public message: string = '';
   constructor(
-    private api:ApiService
-  ){}
+    private api: ApiService
+  ) { }
+
+
+  ngOnInit(): void {
+    this.detectConnectionStatus();
+  }
 
   getData() {
     this.api.showLoader();
@@ -43,4 +48,14 @@ export class UsersComponent {
       this.message = '';
     }, 2000);
   }
+  detectConnectionStatus() {
+    this.api.connectionStatus.subscribe(async (online: boolean) => {
+      if (online) {
+        let cache = await caches.open('get-users');
+        let response = await cache.match('get-users');
+        console.log(response, 'RESPONSE FROM CACHE ####');
+      }
+    })
+  }
+
 }
