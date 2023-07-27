@@ -56,9 +56,18 @@ export class ApiService {
   }
 
   backgroundSync(eventName: string,payload?:any) {
-    navigator.serviceWorker.ready.then((swRegisteration: any) => {
-      swRegisteration.sync.register(eventName);
-    }).catch(console.log)
+    return new Promise((resolve,reject)=>{
+      navigator.serviceWorker.ready.then((swRegisteration: any) => {
+        swRegisteration.sync.register(eventName).then(()=>{
+          // Background sync registration was successful
+          resolve('Syncing... ')
+        }).catch(()=>{
+             // Background sync registration failed
+           reject('Something went wrong ....');
+        });
+      }).catch(console.log)
+    })
+
   }
 
 

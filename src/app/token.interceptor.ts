@@ -47,7 +47,7 @@ export class TokenInterceptor implements HttpInterceptor {
               // break;
           //    }
           // }
-          this.api.backgroundSync('send-message')
+          // this.api.backgroundSync('send-message')
         }
         return throwError(error);
       })

@@ -31,7 +31,13 @@ export class TestComponent {
       this.api.hideLoader();
     }, (error) => {
       this.api.hideLoader();
-      this.api.backgroundSync('get-users')
+      this.api.backgroundSync('get-users').then((message:any)=>{
+        console.log(message,'SYNC COMPLETED------');
+        alert(message);
+      }).catch(err=>{
+        console.log(err,'SYNC ERROR -----');
+
+      })
     })
   }
 
