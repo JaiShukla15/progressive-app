@@ -28,6 +28,8 @@ self.addEventListener('sync', (event) => {
         const records = await event.registration.matchAll();
         const promises = records.map(async record => {
           const response = await record.responseReady;
+          console.log(response,'GET USERS RESPONSE');
+          console.log(record.request,'GET USERS REQUEST');
           await cache.put(record.request, response);
         });
         Promise.allSettled(promises).then(([...prom])=>{
