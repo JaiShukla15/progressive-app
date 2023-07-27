@@ -34,6 +34,8 @@ export class UsersComponent implements OnInit {
       this.api.hideLoader();
       this.api.backgroundSync('get-users').then((message: any) => {
         console.log(message, 'SYNC COMPLETED------');
+        this.message = message;
+        this.vanishMessage();
         this.detectConnectionStatus();
       }).catch(err => {
         console.log(err, 'SYNC ERROR -----');
