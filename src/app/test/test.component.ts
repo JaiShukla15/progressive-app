@@ -128,7 +128,7 @@ export class TestComponent {
         update.state = 'not-stored';
       } else { // other failure
         update.state = 'failed';
-        context.message = 'Downloading Failed';
+        context.message = 'Downloaded';
         context.vanishMessage();
       }
 

@@ -62,5 +62,10 @@ export class UsersComponent implements OnInit {
       this.users = await response?.json();
     }, 2000);
   }
+  clearData(){
+    caches.delete('get-users');
+    this.message = 'Cache cleared';
+    this.vanishMessage();
+  }
 
 }
