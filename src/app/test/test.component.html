@@ -17,16 +17,6 @@
       download
     </span></p>
   </div>
-
-  {{downloadProgress}}
-  <p class="download-text" *ngIf="downloadProgress">{{'('+downloadProgress/(1024*1024)+')'}} MB Remaining</p>
-  <!-- <div class="progress blue">
-    <span class="progress-left">
-      <span class="progress-bar"></span>
-    </span>
-    <span class="progress-right">
-      <span class="progress-bar"></span>
-    </span>
-    <div class="progress-value">{{downloadProgress}}</div>
-  </div> -->
+}
+  <p class="download-text" *ngIf="downloadProgress">File size : {{'('+downloadProgress/(1024*1024)+')'}} MB</p>
 </div>
