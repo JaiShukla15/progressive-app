@@ -3,7 +3,7 @@
 
   <p *ngIf="message" class="alert alert-success">{{message}}</p>
 <button class="my-2 btn btn-primary" (click)="getData()">Get Data</button>
-<button class="my-2 btn btn-warn" (click)="clearData()">Clear</button>
+<button class="my-2 btn btn-danger" (click)="clearData()">Clear</button>
 
 <div class="row user-section">
   <ng-container *ngFor="let user of users">

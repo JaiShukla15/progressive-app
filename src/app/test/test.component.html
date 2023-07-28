@@ -18,6 +18,7 @@
     </span></p>
   </div>
 
+  {{downloadProgress}}
   <p class="download-text" *ngIf="downloadProgress">{{'('+downloadProgress/(1024*1024)+')'}} MB Remaining</p>
   <!-- <div class="progress blue">
     <span class="progress-left">
