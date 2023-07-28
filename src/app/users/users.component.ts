@@ -54,9 +54,9 @@ export class UsersComponent implements OnInit {
   }
 
   sync() {
-    this.message = 'Syncing ....';
-    this.vanishMessage();
     setTimeout(async () => {
+      this.message = 'Syncing ..';
+      this.vanishMessage();
       let cache = await caches.open('get-users');
       let response = await cache.match('get-users');
       this.users = await response?.json();
